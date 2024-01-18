@@ -24,11 +24,8 @@ void count(string s, int counts[]){
 
 void print_counts(int counts[], int len){
 	for(int i=0; i<len; ++i){
-		if(counts[i]>0) {
-			std::cout << index_to_char(i) << ' ' << counts[i] << std::endl;
-		}
+		std::cout << index_to_char(i) << ' ' << counts[i] << std::endl;
 	}
 }
-
 
 	
