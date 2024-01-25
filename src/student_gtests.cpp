@@ -35,6 +35,24 @@ TEST(WordCount, LoadStopWords){
     EXPECT_TRUE(stopwords3.find("the") != stopwords3.end());
     EXPECT_TRUE(stopwords3.find("and") != stopwords3.end());
 
+	stringstream caseStream("The THE the");
+    const auto stopwords4 = load_stopwords(caseStream);
+    EXPECT_EQ(stopwords4.size(), 1);
+    EXPECT_TRUE(stopwords4.find("the") != stopwords4.end());
+
+	stringstream spaceStream(" the   and \n");
+    const auto stopwords5 = load_stopwords(spaceStream);
+    EXPECT_EQ(stopwords5.size(), 2);
+    EXPECT_TRUE(stopwords5.find("the") != stopwords5.end());
+    EXPECT_TRUE(stopwords5.find("and") != stopwords5.end());
+	
+	stringstream nonAlphaStream("don't can't");
+    const auto stopwords6 = load_stopwords(nonAlphaStream);
+    EXPECT_EQ(stopwords6.size(), 2);
+    EXPECT_TRUE(stopwords6.find("don't") != stopwords6.end());
+    EXPECT_TRUE(stopwords6.find("can't") != stopwords6.end());
+
+
 }
 
 TEST(WordCount, CountWords){
