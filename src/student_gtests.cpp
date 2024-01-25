@@ -71,10 +71,25 @@ TEST(WordCount, CountWords){
     const auto wordCounts2 = count_words(stream1, stopwords2);
     EXPECT_EQ(wordCounts2.size(),3);
 
-	stringstream stream2("word1 1234 word2 5678");
+	stringstream stream3("hello \t world\nnew line");
+    set<string> stopwords3;
+    const auto wordCounts3 = count_words(stream3, stopwords3);
+    EXPECT_EQ(wordCounts3.size(), 3);
+
+	stringstream stream4("word1 1234 word2 5678");
     set<string> stopwords4;
-    const auto wordCounts4 = count_words(stream2, stopwords4);
+    const auto wordCounts4 = count_words(stream4, stopwords4);
     EXPECT_EQ(wordCounts4.size(),4);
+
+	stringstream stream5("and the dog ran");
+    set<string> stopwords5 = {"and", "the"};
+    const auto wordCounts5 = count_words(stream5, stopwords5);
+    EXPECT_EQ(wordCounts5.size(), 2);
+
+	stringstream stream6("1234, 5678; 910!");
+    set<string> stopwords6;
+    const auto wordCounts6 = count_words(stream6, stopwords6);
+    EXPECT_EQ(wordCounts6.size(), 3);
 
 
 
