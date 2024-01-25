@@ -74,7 +74,7 @@ TEST(WordCount, CountWords){
 	stringstream stream3("hello \t world\nnew line");
     set<string> stopwords3;
     const auto wordCounts3 = count_words(stream3, stopwords3);
-    EXPECT_EQ(wordCounts3.size(), 3);
+    EXPECT_EQ(wordCounts3.size(), 4);
 
 	stringstream stream4("word1 1234 word2 5678");
     set<string> stopwords4;
