@@ -123,27 +123,27 @@ void coins_menu(std::istream& in, std::ostream& out){
                 int q, d, n, p;
                 cout << "\nQuarters? ";
                 cin >> q;
-                cout << "Dimes? ";
+                cout << "\nDimes? ";
                 cin >> d;
-                cout << "Nickels? ";
+                cout << "\nNickels? ";
                 cin >> n;
-                cout << "Pennies? ";
+                cout << "\nPennies? ";
                 cin >> p;
                 
                 Coins deposit(q, d, n, p);
                 myCoins.deposit_coins(deposit);
                 cout << "\nThank you!\n";
-                break;
-			}
+                break;			
+				}
             case 2:{
                 int q, d, n, p;
                 cout << "\nQuarters? ";
                 cin >> q;
-                cout << "Dimes? ";
+                cout << "\nDimes? ";
                 cin >> d;
-                cout << "Nickels? ";
+                cout << "\nNickels? ";
                 cin >> n;
-                cout << "Pennies? ";
+                cout << "\nPennies? ";
                 cin >> p;
                 
                 Coins extract(q, d, n, p);
