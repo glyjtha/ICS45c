@@ -24,14 +24,27 @@ set<string> load_stopwords(istream& stopword_stream) {
 
 map<string, int> count_words(istream& document_stream, const set<string>& stopwords) {
     map<string, int> word_counts;
-    string word;
+    string word, subword;
     while (document_stream >> word) {
         to_lowercase(word);
-        // Remove any non-alphabetic characters from the end of the word
-        word.erase(remove_if(word.begin(), word.end(),
-                             [](char c) { return !isalpha(c); }), word.end());
-        if (!word.empty() && stopwords.find(word) == stopwords.end()) {
-            ++word_counts[word];
+        
+        // Handle hyphenated words and remove non-alphabetic characters
+        size_t start = 0, end = 0;
+        while ((end = word.find_first_of(" -", start)) != string::npos) {
+            if (end > start) { // Check if there is a non-empty subword
+                subword = word.substr(start, end - start);
+                if (stopwords.find(subword) == stopwords.end()) {
+                    ++word_counts[subword];
+                }
+            }
+            start = end + 1;
+        }
+        // Handle the last subword after the last hyphen (if any)
+        if (start < word.length()) {
+            subword = word.substr(start);
+            if (stopwords.find(subword) == stopwords.end()) {
+                ++word_counts[subword];
+            }
         }
     }
     return word_counts;
