@@ -13,13 +13,15 @@ TEST(WordCount, ToLowercase){
     string lower = "lowercase";
     to_lowercase(lower);
     EXPECT_EQ(lower, "lowercase");
+
+	string mixed = "LoWeR&UPPER";
+    to_lowercase(mixed);
+    EXPECT_EQ(mixed, "lower&upper");
 }
 
 TEST(WordCount, LoadStopWords){
 	stringstream emptyStream("");
-	
 	const auto stopwords = load_stopwords(emptyStream);
-
     EXPECT_TRUE(stopwords.empty());
 
     stringstream specialCharsStream("! @ # $ %");
@@ -27,17 +29,36 @@ TEST(WordCount, LoadStopWords){
     EXPECT_EQ(stopwords2.size(), 5);
     EXPECT_TRUE(stopwords2.find("!") != stopwords2.end());
 
+	stringstream repeatedWordsStream("the the and and the");
+    const auto stopwords3 = load_stopwords(repeatedWordsStream);
+    EXPECT_EQ(stopwords3.size(), 2);
+    EXPECT_TRUE(stopwords3.find("the") != stopwords3.end());
+    EXPECT_TRUE(stopwords3.find("and") != stopwords3.end());
+
 }
 
 TEST(WordCount, CountWords){
 	stringstream emptyStream;
-    const auto stopwords = load_stopwords(emptyStream);
-    EXPECT_TRUE(stopwords.empty());
+    set<string> stopwords;
+    const auto wordCounts = count_words(emptyStream, stopwords);
+    EXPECT_TRUE(wordCounts.empty());
 
-	stringstream stream("stop stop stop");
-    const auto stopwords2 = load_stopwords(stream);
-    EXPECT_EQ(stopwords2.size(), 1);
-    EXPECT_TRUE(stopwords2.find("stop") != stopwords2.end());
+	stringstream stream("Word word WoRd");
+    set<string> stopwords1;
+    const auto wordCounts1 = count_words(stream, stopwords1);
+    EXPECT_EQ(wordCounts1.size(), 1);
+
+	stringstream stream1("word1, word2! word3?");
+    set<string> stopwords2;
+    const auto wordCounts2 = count_words(stream1, stopwords2);
+    EXPECT_EQ(wordCounts2.size(), 1);
+
+	stringstream stream2("word1 1234 word2 5678");
+    set<string> stopwords4;
+    const auto wordCounts4 = count_words(stream2, stopwords4);
+    EXPECT_EQ(wordCounts4.size(), 1);
+
+
 
 }
 
@@ -46,5 +67,11 @@ TEST(WordCount, OutputWordCounts) {
     ostringstream outputStream;
     output_word_counts(emptyWordCounts, outputStream);
     EXPECT_TRUE(outputStream.str().empty());
+
+	map<string, int> wordCounts{{"word1", 1}, {"word2", 2}};
+    ostringstream outputStream1;
+    output_word_counts(wordCounts, outputStream1);
+    string expectedOutput = "word1 1\nword2 2\n";
+    EXPECT_EQ(outputStream1.str(), expectedOutput);
 
 }
