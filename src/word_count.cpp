@@ -5,9 +5,9 @@
 using namespace std;
 
 void to_lowercase(string& str) {
-    for (char& c : str) {
+	for (char& c : str) {
         if (c >= 'A' && c <= 'Z') {
-            c = c - 'A' + 'a';
+            c += 'a' - 'A';
         }
     }
 }
@@ -24,27 +24,17 @@ set<string> load_stopwords(istream& stopword_stream) {
 
 map<string, int> count_words(istream& document_stream, const set<string>& stopwords) {
     map<string, int> word_counts;
-    string word, subword;
+    string word;
     while (document_stream >> word) {
+        // Convert to lowercase
         to_lowercase(word);
         
-        // Handle hyphenated words and remove non-alphabetic characters
-        size_t start = 0, end = 0;
-        while ((end = word.find_first_of(" -", start)) != string::npos) {
-            if (end > start) { // Check if there is a non-empty subword
-                subword = word.substr(start, end - start);
-                if (stopwords.find(subword) == stopwords.end()) {
-                    ++word_counts[subword];
-                }
-            }
-            start = end + 1;
-        }
-        // Handle the last subword after the last hyphen (if any)
-        if (start < word.length()) {
-            subword = word.substr(start);
-            if (stopwords.find(subword) == stopwords.end()) {
-                ++word_counts[subword];
-            }
+        // Remove any non-alphabetic characters from the end of the word
+        word.erase(std::remove_if(word.begin(), word.end(),
+                                  [](char c) { return !isalpha(c) && c != '-'; }), word.end());
+
+        if (!word.empty() && stopwords.find(word) == stopwords.end()) {
+            ++word_counts[word];
         }
     }
     return word_counts;
