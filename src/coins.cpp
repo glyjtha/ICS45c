@@ -106,8 +106,8 @@ Coins ask_for_coins(std::istream& in, std::ostream& out) {
 }
 
 void coins_menu(std::istream& in, std::ostream& out){
-	Coins myCoins; // Initialize your Coins object
-    int choice;
+	Coins myCoins(0,0,0,0); 
+	int choice;
 	cout << "Coins Menu\n";
 
     do {
@@ -119,15 +119,49 @@ void coins_menu(std::istream& in, std::ostream& out){
         in >> choice;
 
         switch (choice) {
-            case 1:
-                deposit_change(myCoins);
+            case 1:{
+                int q, d, n, p;
+                cout << "\nQuarters? ";
+                cin >> q;
+                cout << "Dimes? ";
+                cin >> d;
+                cout << "Nickels? ";
+                cin >> n;
+                cout << "Pennies? ";
+                cin >> p;
+                
+                Coins deposit(q, d, n, p);
+                myCoins.deposit_coins(deposit);
+                cout << "\nThank you!\n";
                 break;
-            case 2:
-                extract_change(myCoins);
+			}
+            case 2:{
+                int q, d, n, p;
+                cout << "\nQuarters? ";
+                cin >> q;
+                cout << "Dimes? ";
+                cin >> d;
+                cout << "Nickels? ";
+                cin >> n;
+                cout << "Pennies? ";
+                cin >> p;
+                
+                Coins extract(q, d, n, p);
+                if (myCoins.has_exact_change_for_coins(extract)) {
+                    myCoins.extract_exact_change(extract);
+                    cout << "\nThank you!\n";
+                } else {
+                    cout << "\nERROR: Insufficient Funds\n";
+                }
                 break;
-            case 3:
-                print_balance(myCoins);
-                break;
+			}
+			case 3:{
+                cout << "\n";
+			    print_cents(myCoins.total_value_in_cents(), cout);
+     			cout << "\n\nThank you!\n";               
+				break;
+			}
+
             case 4:
                 out << "Thank you!\n";
                 break;
@@ -136,63 +170,9 @@ void coins_menu(std::istream& in, std::ostream& out){
                 break;
         }
 
-        // Clear any errors and ignore the rest of the line to handle incorrect input
-        in.clear();
-        in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
     } while (choice != 4);
 }
 
-void deposit_change(Coins& myCoins) {
-    cout << "Quarters? ";
-    int quarters;
-    cin >> quarters;
 
-    std::cout << "Dimes? ";
-    int dimes;
-    cin >> dimes;
 
-    cout << "Nickels? ";
-    int nickels;
-    cin >> nickels;
-
-    cout << "Pennies? ";
-    int pennies;
-    cin >> pennies;
-
-    myCoins.deposit_coins(Coins(quarters, dimes, nickels, pennies));
-    cout << "\nThank you!\n";
-}
-
-void extract_change(Coins& myCoins) {
-    cout << "Quarters? ";
-    int quarters;
-    cin >> quarters;
-
-    cout << "Dimes? ";
-    int dimes;
-    cin >> dimes;
-
-    cout << "Nickels? ";
-    int nickels;
-    cin >> nickels;
-
-    cout << "Pennies? ";
-    int pennies;
-    cin >> pennies;
-
-    Coins extraction(quarters, dimes, nickels, pennies);
-    if (myCoins.has_exact_change_for_coins(extraction)) {
-        myCoins.extract_exact_change(extraction);
-        cout << "\nThank you!\n";
-    } else {
-        cout << "\nERROR: Insufficient Funds\n";
-    }
-}
-
-void print_balance(const Coins& myCoins) {
-    cout << "\n";
-    print_cents(myCoins.total_value_in_cents(), cout);
-    cout << "\nThank you!\n";
-}
 
