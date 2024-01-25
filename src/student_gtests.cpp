@@ -92,4 +92,28 @@ TEST(WordCount, OutputWordCounts) {
     string expectedOutput = "word1 1\nword2 2\n";
     EXPECT_EQ(outputStream1.str(), expectedOutput);
 
+	map<string, int> wordCounts2{{"word1!", 1}, {"word2#", 2}};
+    ostringstream outputStream2;
+    output_word_counts(wordCounts2, outputStream2);
+    string expectedOutput2 = "word1! 1\nword2# 2\n";
+    EXPECT_EQ(outputStream2.str(), expectedOutput2);
+
+	map<string, int> wordCounts3{{"apple", 2}, {"banana", 3}};
+    ostringstream outputStream3;
+    output_word_counts(wordCounts3, outputStream3);
+    string expectedOutput3 = "apple 2\nbanana 3\n"; // Assuming alphabetical order
+    EXPECT_EQ(outputStream3.str(), expectedOutput3);
+	
+	map<string, int> wordCounts4{{"word1", 1000}, {"word2", 2000}};
+    ostringstream outputStream4;
+    output_word_counts(wordCounts4, outputStream4);
+    string expectedOutput4 = "word1 1000\nword2 2000\n";
+    EXPECT_EQ(outputStream4.str(), expectedOutput4);
+
+	map<string, int> wordCounts5{{"word1", 0}, {"word2", 0}};
+    ostringstream outputStream5;
+    output_word_counts(wordCounts5, outputStream5);
+    string expectedOutput5 = "word1 0\nword2 0\n"; // Check if this is the expected behavior
+    EXPECT_EQ(outputStream5.str(), expectedOutput5);
+
 }
