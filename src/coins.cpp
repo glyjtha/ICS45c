@@ -105,3 +105,94 @@ Coins ask_for_coins(std::istream& in, std::ostream& out) {
     return Coins(quarters, dimes, nickels, pennies);
 }
 
+void coins_menu(std::istream& in, std::ostream& out){
+	Coins myCoins; // Initialize your Coins object
+    int choice;
+	cout << "Coins Menu\n";
+
+    do {
+        out << "1. Deposit Change\n"
+            << "2. Extract Change\n"
+            << "3. Print Balance\n"
+            << "4. Exit\n"
+            << "User Input: ";
+        in >> choice;
+
+        switch (choice) {
+            case 1:
+                deposit_change(myCoins);
+                break;
+            case 2:
+                extract_change(myCoins);
+                break;
+            case 3:
+                print_balance(myCoins);
+                break;
+            case 4:
+                out << "Thank you!\n";
+                break;
+            default:
+                out << "ERROR: Invalid Command\n";
+                break;
+        }
+
+        // Clear any errors and ignore the rest of the line to handle incorrect input
+        in.clear();
+        in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    } while (choice != 4);
+}
+
+void deposit_change(Coins& myCoins) {
+    cout << "Quarters? ";
+    int quarters;
+    cin >> quarters;
+
+    std::cout << "Dimes? ";
+    int dimes;
+    cin >> dimes;
+
+    cout << "Nickels? ";
+    int nickels;
+    cin >> nickels;
+
+    cout << "Pennies? ";
+    int pennies;
+    cin >> pennies;
+
+    myCoins.deposit_coins(Coins(quarters, dimes, nickels, pennies));
+    cout << "\nThank you!\n";
+}
+
+void extract_change(Coins& myCoins) {
+    cout << "Quarters? ";
+    int quarters;
+    cin >> quarters;
+
+    cout << "Dimes? ";
+    int dimes;
+    cin >> dimes;
+
+    cout << "Nickels? ";
+    int nickels;
+    cin >> nickels;
+
+    cout << "Pennies? ";
+    int pennies;
+    cin >> pennies;
+
+    Coins extraction(quarters, dimes, nickels, pennies);
+    if (myCoins.has_exact_change_for_coins(extraction)) {
+        myCoins.extract_exact_change(extraction);
+        cout << "\nThank you!\n";
+    } else {
+        cout << "\nERROR: Insufficient Funds\n";
+    }
+}
+
+void print_balance(const Coins& myCoins) {
+    cout << "\n";
+    print_cents(myCoins.total_value_in_cents(), cout);
+    cout << "\nThank you!\n";
+}
+
