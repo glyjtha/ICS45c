@@ -51,12 +51,12 @@ TEST(WordCount, CountWords){
 	stringstream stream1("word1, word2! word3?");
     set<string> stopwords2;
     const auto wordCounts2 = count_words(stream1, stopwords2);
-    EXPECT_EQ(wordCounts2.size(), 1);
+    EXPECT_EQ(wordCounts2.size(),3);
 
 	stringstream stream2("word1 1234 word2 5678");
     set<string> stopwords4;
     const auto wordCounts4 = count_words(stream2, stopwords4);
-    EXPECT_EQ(wordCounts4.size(), 1);
+    EXPECT_EQ(wordCounts4.size(),4);
 
 
 
