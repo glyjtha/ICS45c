@@ -220,16 +220,11 @@ char* String::strcpy(char* dest, const char* src) {
 }
 
 char *String::strncpy(char *dest, const char *src, int n) {
-    int i = 0;
-    // Copy characters from src to dest until null byte or limit is reached
-    for (; i < n && src[i] != '\0'; ++i) {
+    int i;
+    for(i=0; i<n && src[i] != '\0'; ++i){
         dest[i] = src[i];
     }
-    // If less than n characters were copied, pad the rest with '\0'
-    // This will also ensure that dest is null-terminated
-    for (; i < n; ++i) {
-        dest[i] = '\0';
-    }
+    dest[i] = '\0';
     return dest;
 }
 
