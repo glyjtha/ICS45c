@@ -17,19 +17,19 @@ public:
     String &operator=(const String &s);
 
     //allow indexing this string with notation s[i]
-    char &operator[](int index);
-
+    char operator[](int index) const;
+    
     //returns the logical length of this string(# of chars up to '\o')
-    int size();
+    int size() const;
 
     //returns a reversal of this string, does not modify this string
-    String reverse();
+    String reverse() const;
 
     //returns index into this string for first occurrence of c
-    int indexOf(char c);
+    int indexOf(char c) const;
 
     //returns index into this string for first occurrence of s
-    int indexOf(const String &s);
+    int indexOf(const String &s) const;
 
     //relational operators for comparing this strings to another string
     bool operator==(const String &s) const;
@@ -40,7 +40,7 @@ public:
     bool operator>=(const String &s) const;
 
     //concatenate this and s to form a return string
-    String operator+(const String &s);
+    String operator+(const String &s) const;
 
     //concatenate s onto the end of this string
     String &operator+=(const String &s);

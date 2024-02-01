@@ -24,30 +24,28 @@ String& String::operator=(const String &s) {
     return *this;
 }
 
-char &String::operator[](int index) {
+char String::operator[](int index) const {
     if (index < 0 || index >= strlen(buf)) {
-        cerr << "ERROR: Index Out Of Bounds" << endl;
-        // Returning first character as a fallback for out-of-bounds index
-        return buf[0];
-    } else {
-        return buf[index]; // Return character at the given index
+        cout << "ERROR: Index Out Of Bounds" << endl;
+        return buf[0]; // Or return a default char like '\0'
     }
+    return buf[index];
 }
 
 
 
-int String::size() {
+int String::size() const {
     return strlen(buf);
 }
 
 
-String String::reverse(){
+String String::reverse() const{
     char temp[MAXLEN];
     reverse_cpy(temp, buf); 
     return String(temp);
 }
 
-int String::indexOf(char c){
+int String::indexOf(char c) const{
     for (int i=0; buf[i] != '\0'; ++i){
         if (buf[i] == c){
             return i;
@@ -56,7 +54,7 @@ int String::indexOf(char c){
     return -1;
 }
 
-int String::indexOf(const String &s) { 
+int String::indexOf(const String &s) const{ 
     int s_len = strlen(s.buf);
     if (s_len == 0) {
         return 0; // If s is an empty string, return 0
@@ -144,7 +142,7 @@ bool String::operator<=(const String &s) const {
     return !(*this > s); // Use the already defined operator>
 }
 
-String String::operator+(const String &s) {
+String String::operator+(const String &s) const{
     String result;
     strncpy(result.buf, buf, MAXLEN - 1);
     int length = strlen(result.buf);
