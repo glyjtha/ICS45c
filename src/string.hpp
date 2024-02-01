@@ -18,7 +18,7 @@ public:
 
     //allow indexing this string with notation s[i]
     char operator[](int index) const;
-    
+
     //returns the logical length of this string(# of chars up to '\o')
     int size() const;
 
@@ -55,7 +55,7 @@ public:
     //destructor for this string
     ~String();
 
-    bool in_bounds(int i){
+    bool in_bounds(int i) const{
         return i >= 0 && i < strlen(buf);
     }
 
