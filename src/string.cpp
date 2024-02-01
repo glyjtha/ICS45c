@@ -54,14 +54,21 @@ int String::indexOf(char c){
     return -1;
 }
 
-int String::indexOf(const String &s){ 
-    if (strlen(s.buf) == 0) {
+int String::indexOf(const String &s) { 
+    int s_len = strlen(s.buf);
+    if (s_len == 0) {
         return 0; // If s is an empty string, return 0
     }
 
+    int this_len = strlen(buf);
     for (int i = 0; buf[i] != '\0'; ++i) {
+        // Check if there's enough remaining length in buf for s to fit
+        if (this_len - i < s_len) {
+            return -1; // Not enough characters left for s to fit
+        }
+
         bool match = true;
-        for (int j = 0; j < strlen(s.buf) && buf[i + j] != '\0'; ++j) { // Also check for the end of *this
+        for (int j = 0; j < s_len; ++j) {
             if (buf[i + j] != s.buf[j]) {
                 match = false;
                 break;
@@ -73,6 +80,7 @@ int String::indexOf(const String &s){
     }
     return -1; // Substring not found
 }
+
 
 
 bool String::operator==(const String &s) const {
@@ -142,7 +150,7 @@ String String::operator+(const String &s) {
     if (length < MAXLEN - 1) {
         strncat(result.buf, s.buf, MAXLEN - 1 - length);
     } else {
-        std::cerr << "ERROR: String Capacity Exceeded" << std::endl;
+        cout << "ERROR: String Capacity Exceeded" << endl;
     }
 
     result.buf[MAXLEN - 1] = '\0';
@@ -208,6 +216,7 @@ char *String::strncpy(char *dest, const char *src, int n) {
         dest[i] = src[i];
     }
     // If less than n characters were copied, pad the rest with '\0'
+    // This will also ensure that dest is null-terminated
     for (; i < n; ++i) {
         dest[i] = '\0';
     }
@@ -251,13 +260,21 @@ int String::strcmp(const char *left, const char *right){
 
 
 int String::strncmp(const char *left, const char *right, int n){
-    for(int i=0; i < n; ++i){
-        if(left[i] == '\0'|| left[i] == right[i]){
+    for (int i = 0; i < n; ++i) {
+        // Check if either string has reached its end
+        if (left[i] == '\0' || right[i] == '\0') {
+            return (unsigned char)left[i] - (unsigned char)right[i];
+        }
+
+        // If characters differ, return the difference
+        if (left[i] != right[i]) {
             return (unsigned char)left[i] - (unsigned char)right[i];
         }
     }
+    // Strings are equal up to the first n characters
     return 0;
 }
+
 
 void String::reverse_cpy(char *dest, const char *src) {
     int len = strlen(src);
@@ -269,23 +286,30 @@ void String::reverse_cpy(char *dest, const char *src) {
 
 
 const char *String::strchr(const char *src, char c) {
-    while (*src != '\0') {
+    while (true) {
         if (*src == c) {
-            return src; // src is 'const char*', so this is okay
+            return src; // Return the pointer to the character, even if it's '\0'
+        }
+        if (*src == '\0') {
+            break; // If we've reached the end of the string, exit the loop
         }
         ++src;
     }
-    return nullptr;
+    return nullptr; // Character not found
 }
+
 
 const char *String::strstr(const char *haystack, const char *needle) {
     if (*needle == '\0') {
         return haystack; // Empty needle should return the full haystack
     }
-
     int len = strlen(needle);
 
     for (const char *p = haystack; *p != '\0'; ++p) {
+        // Check if there are enough characters left in haystack
+        if (strlen(p) < len) {
+            return nullptr; // Not enough characters for needle to fit
+        }
         if (*p == needle[0]) {
             if (strncmp(p, needle, len) == 0) {
                 return p;
@@ -294,6 +318,7 @@ const char *String::strstr(const char *haystack, const char *needle) {
     }
     return nullptr;
 }
+
 
 
 std::ostream &operator<<(std::ostream &out, const String &s) {
