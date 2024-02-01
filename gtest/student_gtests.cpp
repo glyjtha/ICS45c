@@ -27,18 +27,32 @@ TEST(StringFunction, strncpy) {
     EXPECT_EQ(String::strncpy(result1, source, sizeof(result1)), result1);
     EXPECT_STREQ(result1, "Hello");
 
-
     // Test copying with the destination size exactly equal to the source length + null terminator
     char result3[6];
     EXPECT_EQ(String::strncpy(result3, source, sizeof(result3)), result3);
     EXPECT_STREQ(result3, "Hello");
 
-
     // Test copying with size limit less than the length of source string
     char result4[4];
     EXPECT_EQ(String::strncpy(result4, source, sizeof(result4)), result4);
-    result4[sizeof(result4) - 1] = '\0'; // Manually null-terminate for safety
+    result4[sizeof(result4) - 1] = '\0';
     EXPECT_STREQ(result4, "Hel");
+
+    // Edge Case: Copying with n larger than the length of source string
+    char result5[8];
+    EXPECT_EQ(String::strncpy(result5, source, sizeof(result5)), result5);
+    EXPECT_STREQ(result5, "Hello");
+    EXPECT_EQ(result5[6], '\0'); // Check padding
+
+    // Edge Case: Copying with n equal to zero
+    char result6[10] = "Test";
+    EXPECT_EQ(String::strncpy(result6, source, 0), result6);
+    EXPECT_STREQ(result6, "Test"); // No change expected
+
+    // Edge Case: Copying where src is an empty string
+    char result7[10];
+    EXPECT_EQ(String::strncpy(result7, "", sizeof(result7)), result7);
+    EXPECT_STREQ(result7, "");
 }
 
 TEST(StringFunction, strcat) {
