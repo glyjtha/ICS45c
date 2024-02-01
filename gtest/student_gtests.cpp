@@ -117,6 +117,7 @@ TEST(StringFunction, strcmp) {
 TEST(StringFunction, strncmp) {
     const char source1[] = "Hello";
     const char source2[] = "World";
+    const char source3[] = "Hello World";
 
     // Test equal for n characters
     EXPECT_EQ(String::strncmp(source1, source1, 5), 0);
@@ -125,8 +126,21 @@ TEST(StringFunction, strncmp) {
     EXPECT_LE(String::strncmp(source1, source2, 3), 0);
 
     // Comparing strings of different lengths
-    // EXPECT_NE(String::strncmp(source1, "Hello World", 5), 0); // Compare only first 5 characters
+    // EXPECT_NE(String::strncmp(source1, source3, 5), 0); // Compare only first 5 characters
+
+    // Edge Case: Comparing a string with its prefix
+    EXPECT_EQ(String::strncmp(source1, source3, 5), 0);
+
+    // Edge Case: Comparing with an empty string
+    EXPECT_GT(String::strncmp(source1, "", 5), 0);
+
+    // Edge Case: Strings are equal up to n characters but differ afterward
+    EXPECT_EQ(String::strncmp(source1, source3, 5), 0);
+
+    // Edge Case: Comparing with n = 0, should always return 0
+    EXPECT_EQ(String::strncmp(source1, source2, 0), 0);
 }
+
 
 
 TEST(StringFunction, reverse_cpy) {
