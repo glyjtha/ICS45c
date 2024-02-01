@@ -55,9 +55,7 @@ public:
     //destructor for this string
     ~String();
 
-    bool in_bounds(int i) const{
-        return i >= 0 && i < strlen(buf);
-    }
+    bool in_bounds(int i) const;
 
     //These static helper methods would ultimately be private,
     //but are made public so that you can test

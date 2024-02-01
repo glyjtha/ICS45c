@@ -28,11 +28,12 @@ String& String::operator=(const String &s) {
 }
 
 char String::operator[](int index) const {
-    if (index < 0 || index >= strlen(buf)) {
+    if (in_bounds(index)){
+        return buf[index];}
+    else{
         cout << "ERROR: Index Out Of Bounds" << endl;
-        return buf[0]; 
-    }
-    return buf[index];
+        return buf[0];}
+
 }
 
 
@@ -199,6 +200,10 @@ void String::read(std::istream &in){
 
 String::~String(){
 
+}
+
+bool String::in_bounds(int i) const{
+    return i >= 0 && i < strlen(buf);
 }
 
 // Static helper function to copy a C-string with length protection
