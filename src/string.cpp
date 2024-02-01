@@ -25,8 +25,9 @@ String& String::operator=(const String &s) {
 }
 
 char &String::operator[](int index) {
-    if (index < 0 || index >= strlen(buf)) {
+    if (index < 0 || index >= strlen(buf) || !in_bounds(index)) {
         // Returning first character as a fallback for out-of-bounds index
+        cout << "Index Out Of Bounds"<<endl;
         return buf[0];
     } else {
         return buf[index]; // Return character at the given index
@@ -162,16 +163,17 @@ String &String::operator+=(const String &s) {
     int thisLength = strlen(buf);
     int appendLength = strlen(s.buf);
 
-    if (thisLength + appendLength >= MAXLEN) {
-        std::cerr << "ERROR: String Capacity Exceeded" << std::endl;
-        strncat(buf, s.buf, MAXLEN - 1 - thisLength);
+    if (thisLength + appendLength < MAXLEN) {
+        strncat(buf, s.buf, appendLength);
     } else {
-        strcat(buf, s.buf);
+        cout << "ERROR: String Capacity Exceeded" << endl;
+        // Handle overflow, e.g., truncate s.buf or leave buf unchanged
     }
 
     buf[MAXLEN - 1] = '\0';
     return *this;
 }
+
 
 
 void String::print(std::ostream &out) const{
@@ -215,13 +217,16 @@ char *String::strncpy(char *dest, const char *src, int n) {
     for (; i < n && src[i] != '\0'; ++i) {
         dest[i] = src[i];
     }
-    // If less than n characters were copied, pad the rest with '\0'
-    // This will also ensure that dest is null-terminated
-    for (; i < n; ++i) {
+
+    // If src is shorter than n, do not pad the rest with '\0'
+    // Instead, ensure dest is null-terminated if at least one character is copied
+    if (i > 0 && i < n) {
         dest[i] = '\0';
     }
+
     return dest;
 }
+
 
 
 char *String::strcat(char *dest, const char *src) {
