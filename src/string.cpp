@@ -145,18 +145,23 @@ bool String::operator<=(const String &s) const {
     return !(*this > s); // Use the already defined operator>
 }
 
-String String::operator+(const String &s) const{
+String String::operator+(const String &s) const {
     String result;
-    strncpy(result.buf, buf, MAXLEN - 1);
-    int length = strlen(result.buf);
+    int currentLength = strlen(buf);
+    int addLength = strlen(s.buf);
 
-    if (length < MAXLEN - 1) {
-        strncat(result.buf, s.buf, MAXLEN - 1 - length);
+    if (currentLength + addLength < MAXLEN) {
+        strncpy(result.buf, buf, currentLength);
+        strncat(result.buf, s.buf, addLength);
+        result.buf[currentLength + addLength] = '\0'; 
     } else {
         cout << "ERROR: String Capacity Exceeded" << endl;
+        int copyLength = MAXLEN - 1 - currentLength;
+        if (copyLength > 0) {
+            strncat(result.buf, s.buf, copyLength);
+        }
+        result.buf[MAXLEN - 1] = '\0'; 
     }
-
-    result.buf[MAXLEN - 1] = '\0';
     return result;
 }
 
@@ -167,7 +172,7 @@ String &String::operator+=(const String &s) {
 
     // Check for buffer overflow
     if (thisLength + appendLength >= MAXLEN) {
-        cerr << "ERROR: String Capacity Exceeded" << endl;
+        cout << "ERROR: String Capacity Exceeded" << endl;
         return *this; // Early return to avoid overflow
     }
 
