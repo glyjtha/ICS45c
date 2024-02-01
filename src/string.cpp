@@ -26,12 +26,14 @@ String& String::operator=(const String &s) {
 
 char &String::operator[](int index) {
     if (index < 0 || index >= strlen(buf)) {
+        cerr << "ERROR: Index Out Of Bounds" << endl;
         // Returning first character as a fallback for out-of-bounds index
         return buf[0];
     } else {
         return buf[index]; // Return character at the given index
     }
 }
+
 
 
 int String::size() {
@@ -162,16 +164,26 @@ String &String::operator+=(const String &s) {
     int thisLength = strlen(buf);
     int appendLength = strlen(s.buf);
 
+    // Check for buffer overflow
     if (thisLength + appendLength >= MAXLEN) {
-        std::cerr << "ERROR: String Capacity Exceeded" << std::endl;
-        strncat(buf, s.buf, MAXLEN - 1 - thisLength);
+        cerr << "ERROR: String Capacity Exceeded" << endl;
+        return *this; // Early return to avoid overflow
+    }
+
+    // Handle self-concatenation
+    if (this == &s) {
+        char temp[MAXLEN];
+        strncpy(temp, buf, thisLength);
+        strncat(temp, s.buf, appendLength);
+        strncpy(buf, temp, MAXLEN - 1);
     } else {
-        strcat(buf, s.buf);
+        strncat(buf, s.buf, appendLength);
     }
 
     buf[MAXLEN - 1] = '\0';
     return *this;
 }
+
 
 
 void String::print(std::ostream &out) const{
@@ -181,7 +193,7 @@ void String::print(std::ostream &out) const{
 void String::read(std::istream &in){
     in >> buf;
     if (strlen(buf) >= MAXLEN){
-        std::cout << "ERROR: String Capacity Exceeded"<< std::endl;
+        cout << "ERROR: String Capacity Exceeded"<< endl;
         }
 }
 
