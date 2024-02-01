@@ -5,7 +5,7 @@ using namespace std;
 // Implement the constructor from a C-string, defaults to empty string
 String::String(const char *s) {
     if (s != nullptr && strlen(s) >= MAXLEN) {
-        cerr << "ERROR: String Capacity Exceeded" << endl;
+        cout << "ERROR: String Capacity Exceeded" << endl;
         strncpy(buf, s, MAXLEN - 1);
         buf[MAXLEN - 1] = '\0'; 
     } else {
@@ -29,7 +29,7 @@ String& String::operator=(const String &s) {
 
 char String::operator[](int index) const {
     if (index < 0 || index >= strlen(buf)) {
-        cerr << "ERROR: Index Out Of Bounds" << endl;
+        cout << "ERROR: Index Out Of Bounds" << endl;
         return buf[0]; 
     }
     return buf[index];
@@ -152,7 +152,7 @@ String String::operator+(const String &s) const{
     if (length < MAXLEN - 1) {
         strncat(result.buf, s.buf, MAXLEN - 1 - length);
     } else {
-        cerr << "ERROR: String Capacity Exceeded" << endl;
+        cout << "ERROR: String Capacity Exceeded" << endl;
     }
 
     result.buf[MAXLEN - 1] = '\0';
@@ -193,7 +193,7 @@ void String::print(std::ostream &out) const{
 void String::read(std::istream &in){
     in >> buf;
     if (strlen(buf) >= MAXLEN){
-        cerr << "ERROR: String Capacity Exceeded"<< endl;
+        cout << "ERROR: String Capacity Exceeded"<< endl;
         }
 }
 
@@ -272,6 +272,7 @@ int String::strncmp(const char *left, const char *right, int n){
             return (unsigned char)left[i] - (unsigned char)right[i];
         }
 
+        // If characters differ, return the difference
         if (left[i] != right[i]) {
             return (unsigned char)left[i] - (unsigned char)right[i];
         }
