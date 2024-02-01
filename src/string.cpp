@@ -25,7 +25,7 @@ String& String::operator=(const String &s) {
 }
 
 char String::operator[](int index) const {
-    if (index < 0 || index > strlen(buf)) {
+    if (index < 0 || index >= strlen(buf)) {
         cout << "ERROR: Index Out Of Bounds" << endl;
         return buf[0]; 
     }
