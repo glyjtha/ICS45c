@@ -4,17 +4,20 @@ using namespace std;
 
 // Implement the constructor from a C-string, defaults to empty string
 String::String(const char *s) {
-    // Call the static helper method strncpy
-    strncpy(buf, s, MAXLEN - 1);
-    buf[MAXLEN - 1] = '\0'; // Ensure the string is null-terminated
+    if (s != nullptr && strlen(s) >= MAXLEN) {
+        cout << "ERROR: String Capacity Exceeded" << endl;
+        strncpy(buf, s, MAXLEN - 1);
+        buf[MAXLEN - 1] = '\0'; 
+    } else {
+        strncpy(buf, s, MAXLEN);
+    }
 }
+
 
 String::String(const String &s) {
     strncpy(buf, s.buf, MAXLEN - 1);
-    buf[MAXLEN - 1] = '\0'; // Ensure the string is null-terminated
+    buf[MAXLEN - 1] = '\0'; 
 }
-
-
 
 String& String::operator=(const String &s) {
     if (this != &s) {
@@ -89,7 +92,6 @@ bool String::operator==(const String &s) const {
         return false; // Different lengths, so they cannot be equal
     }
 
-    // Compare characters of both strings
     for (int i = 0; buf[i] != '\0'; ++i) {
         if (buf[i] != s.buf[i]) {
             return false; // Found a mismatching character
@@ -266,17 +268,14 @@ int String::strcmp(const char *left, const char *right){
 
 int String::strncmp(const char *left, const char *right, int n){
     for (int i = 0; i < n; ++i) {
-        // Check if either string has reached its end
         if (left[i] == '\0' || right[i] == '\0') {
             return (unsigned char)left[i] - (unsigned char)right[i];
         }
 
-        // If characters differ, return the difference
         if (left[i] != right[i]) {
             return (unsigned char)left[i] - (unsigned char)right[i];
         }
     }
-    // Strings are equal up to the first n characters
     return 0;
 }
 
@@ -293,10 +292,10 @@ void String::reverse_cpy(char *dest, const char *src) {
 const char *String::strchr(const char *src, char c) {
     while (true) {
         if (*src == c) {
-            return src; // Return the pointer to the character, even if it's '\0'
+            return src; 
         }
         if (*src == '\0') {
-            break; // If we've reached the end of the string, exit the loop
+            break; 
         }
         ++src;
     }
