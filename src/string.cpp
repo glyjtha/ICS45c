@@ -4,13 +4,13 @@ using namespace std;
 
 // Implement the constructor from a C-string, defaults to empty string
 String::String(const char *s) {
-    if (s != nullptr && strlen(s) >= MAXLEN) {
+    if (strlen(s) >= MAXLEN) {
         cout << "ERROR: String Capacity Exceeded" << endl;
         strncpy(buf, s, MAXLEN - 1);
-        buf[MAXLEN - 1] = '\0'; 
     } else {
-        strncpy(buf, s, MAXLEN);
+        strcpy(buf, s);
     }
+    buf[MAXLEN - 1] = '\0'; 
 }
 
 
