@@ -148,7 +148,6 @@ TEST(StringFunction, reverse_cpy) {
     EXPECT_STREQ(result, "");
 }
 
-
 TEST(StringFunction, strchr) {
     const char source[] = "Hello World";
     const char empty[] = "";
@@ -162,11 +161,13 @@ TEST(StringFunction, strchr) {
     // Edge Case: Searching in an empty string
     EXPECT_TRUE(String::strchr(empty, 'H') == nullptr);
 
-    // Edge Case: Searching for null terminator
-    // EXPECT_EQ(String::strchr(source, '\0'), source + strlen(source));
+    // Edge Case: Finding the null terminator in a non-empty string
+    EXPECT_TRUE(String::strchr(source, '\0') == source + strlen(source));
 
-
+    // Edge Case: Finding the null terminator in an empty string
+    EXPECT_TRUE(String::strchr(empty, '\0') == empty);
 }
+
 
 TEST(StringFunction, strstr) {
     const char source[] = "Hello World";
