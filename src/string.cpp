@@ -1,4 +1,27 @@
+String::String(const char *s){
+    if (s = nullptr){
+        buf = new char[1];
+        buf[0] = '\0';
+    }
+    else{
+        buf = new char[strlen(s) + 1];
+        strcpy(buf, s);
 
+    }
+}
+
+String::String(const String &s){
+    buf = new char[strlen(s.buf) + 1];
+    strcpy(buf, s.buf);
+}
+
+void String::swap(String &s){
+    std::swap(buf, s.buf);
+}
+
+String::&operator=(String s){
+    
+}
 int String::strlen(const char *s){
     int length = 0;
     while(s[length] != '\0'){
