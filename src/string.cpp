@@ -1,3 +1,6 @@
+#include "string.hpp"
+using namespace std;
+
 String::String(const char *s){
     if (s = nullptr){
         buf = new char[1];
@@ -15,13 +18,178 @@ String::String(const String &s){
     strcpy(buf, s.buf);
 }
 
+String::String(String&& s){
+    : buf(nullptr) // Initialize buf to nullptr 
+    swap(s);
+}
+
 void String::swap(String &s){
     std::swap(buf, s.buf);
 }
 
-String::&operator=(String s){
-    
+String& String::operator=(const String& s) {
+    if (this != &s) { 
+        String temp(s); 
+        swap(temp);
+    }
+    return *this;
 }
+
+String& String::operator=(String&& s) {
+    if (this != &s) {
+        delete[] buf; // Free existing resources
+        buf = s.buf; // Transfer ownership of resources
+        s.buf = nullptr; // Set the source to a null state
+    }
+    return *this;
+}
+
+char& String::operator[](int index) {
+    return buf[index];
+}
+
+const char& String::operator[](int index) const {
+    return buf[index];
+}
+
+int String::size() const{
+    return strlen(buf);
+}
+
+String String::reverse(){
+    String reversal{len+1};
+    String::reverse_cpy(reversal.buf, buf);
+    return reversal;
+}
+
+int String::indexOf(char c) const {
+    for (int i = 0; buf[i] != '\0'; ++i) {
+        if (buf[i] == c) {
+            return i; 
+        }
+    }
+    return -1; 
+}
+
+int String::indexOf(String s) const {
+    int len = strlen(buf);
+    int sublen = s.size();
+
+    if (sublen == 0){
+        return -1; // Edge case: searching for an empty string
+    
+    }
+
+    for (int i = 0; i <= len - sublen; ++i) {
+        int j;
+        for (j = 0; j < sublen; ++j) {
+            if (buf[i + j] != s.buf[j]) {
+                break; // Characters don't match, break the inner loop
+            }
+        }
+        if (j == sublen) {
+            return i; // Substring found at index i
+        }
+    }
+    return -1; // Substring not found
+}
+
+bool String::operator==(const String &s) const {
+    if (strlen(buf) != strlen(s.buf)) {
+        return false;
+    }
+
+    for (int i = 0; buf[i] != '\0'; ++i) {
+        if (buf[i] != s.buf[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool String::operator!=(const String &s) const {
+    return !(*this == s);
+}
+
+bool String::operator>(const String &s) const {
+    int i=0;
+    while(buf[i] != '\0' && s.buf != '\0'){
+        if(buf[i]>s.buf[i]){
+            return ture;
+        }
+        else if(buf[i]<s.buf[i]){
+            return false
+        }
+        i++;
+    }
+    return buf[i] != '\0' && s.buf[i] == '\0';
+}
+
+bool String::operator<(String s) const {
+    return !(*this == s) && !(*this > s);
+}
+
+bool String::operator<=(String s) const {
+    return !(*this > s);
+}
+
+bool String::operator>=(String s) const {
+    return *this == s || *this > s;
+}
+
+
+Copy code
+String String::operator+(String s) const {
+    int thisLen = strlen(buf);
+    int otherLen = strlen(s.buf);
+    int totalLen = thisLen + otherLen;
+
+    char* concatStr = new char[totalLen + 1]; // +1 for null terminator
+
+    strcpy(concatStr, buf);
+    strcat(concatStr, s.buf);
+
+    String result(concatStr);
+    delete[] concatStr; // Avoid memory leak
+    return result;
+}
+
+String& String::operator+=(String s) {
+    int thisLen = strlen(buf);
+    int otherLen = strlen(s.buf);
+    int totalLen = thisLen + otherLen;
+
+    char* newBuf = new char[totalLen + 1]; // +1 for null terminator
+
+    strcpy(newBuf, buf);
+    strcat(newBuf, s.buf);
+
+    delete[] buf; // Free old buffer
+    buf = newBuf; // Point to new buffer
+
+    return *this;
+}
+
+void String::print(std::ostream &out) const{
+    out << buf;
+}
+
+void String::read(std::istream &in) {
+    const int bufferSize = 100;  // Initial buffer size
+    char temp[bufferSize];       // Temporary buffer to store input
+
+    if (in >> temp) {            // Read next word from the input stream
+        delete[] buf;            // Delete old buffer
+        int length = strlen(temp);
+        buf = new char[length + 1];  // Allocate memory for new word
+        strcpy(buf, temp);           // Copy the word into buf
+    }
+}
+
+bool in_bounds(int i) const {
+        return i >= 0 && i < strlen(buf);
+}
+
 int String::strlen(const char *s){
     int length = 0;
     while(s[length] != '\0'){
@@ -143,4 +311,5 @@ const char *String::strstr(const char *haystack, const char *needle) {
     }
     return nullptr;
 }
+
 
