@@ -1,8 +1,10 @@
 #include "string.hpp"
-using namespace std;
+#include <utility>
+#include <iostream>
+
 
 String::String(const char *s){
-    if (s = nullptr){
+    if (s == nullptr){
         buf = new char[1];
         buf[0] = '\0';
     }
@@ -18,16 +20,18 @@ String::String(const String &s){
     strcpy(buf, s.buf);
 }
 
-String::String(String&& s){
-    : buf(nullptr) // Initialize buf to nullptr 
-    swap(s);
+String::String(String&& s)
+    : buf(nullptr) // Correctly using member initializer list here
+{
+    swap(s); // Inside the constructor body
 }
 
-void String::swap(String &s){
+
+void String::swap(String& s){
     std::swap(buf, s.buf);
 }
 
-String& String::operator=(const String& s) {
+String& String::operator=(const String &s) {
     if (this != &s) { 
         String temp(s); 
         swap(temp);
@@ -56,9 +60,16 @@ int String::size() const{
     return strlen(buf);
 }
 
-String String::reverse(){
-    String reversal{len+1};
-    String::reverse_cpy(reversal.buf, buf);
+String String::reverse() const{
+    int len = size();
+    char* reversedBuf = new char[len + 1]; // +1 for null terminator
+
+    // Assuming reverse_cpy correctly reverses the string
+    String::reverse_cpy(reversedBuf, buf);
+
+    String reversal(reversedBuf); // Use the constructor that takes a char*
+    delete[] reversedBuf; // Avoid memory leak
+
     return reversal;
 }
 
@@ -95,16 +106,8 @@ int String::indexOf(String s) const {
 }
 
 bool String::operator==(const String &s) const {
-    if (strlen(buf) != strlen(s.buf)) {
-        return false;
-    }
-
-    for (int i = 0; buf[i] != '\0'; ++i) {
-        if (buf[i] != s.buf[i]) {
-            return false;
-        }
-    }
-    return true;
+    bool value = strcmp(buf, s.buf) == 0;
+    return value;
 }
 
 bool String::operator!=(const String &s) const {
@@ -112,34 +115,24 @@ bool String::operator!=(const String &s) const {
 }
 
 bool String::operator>(const String &s) const {
-    int i=0;
-    while(buf[i] != '\0' && s.buf != '\0'){
-        if(buf[i]>s.buf[i]){
-            return ture;
-        }
-        else if(buf[i]<s.buf[i]){
-            return false
-        }
-        i++;
-    }
-    return buf[i] != '\0' && s.buf[i] == '\0';
+    bool value = strcmp(buf, s.buf) > 0;
+    return value;
 }
 
-bool String::operator<(String s) const {
+bool String::operator<(const String &s) const {
     return !(*this == s) && !(*this > s);
 }
 
-bool String::operator<=(String s) const {
+bool String::operator<=(const String &s) const {
     return !(*this > s);
 }
 
-bool String::operator>=(String s) const {
+bool String::operator>=(const String &s) const {
     return *this == s || *this > s;
 }
 
 
-Copy code
-String String::operator+(String s) const {
+String String::operator+(const String &s) const {
     int thisLen = strlen(buf);
     int otherLen = strlen(s.buf);
     int totalLen = thisLen + otherLen;
@@ -154,7 +147,7 @@ String String::operator+(String s) const {
     return result;
 }
 
-String& String::operator+=(String s) {
+String& String::operator+=(const String &s) {
     int thisLen = strlen(buf);
     int otherLen = strlen(s.buf);
     int totalLen = thisLen + otherLen;
@@ -185,9 +178,12 @@ void String::read(std::istream &in) {
         strcpy(buf, temp);           // Copy the word into buf
     }
 }
+String::~String() {
+    delete[] buf;
+}
 
-bool in_bounds(int i) const {
-        return i >= 0 && i < strlen(buf);
+bool String::in_bounds(int i) const {
+    return i >= 0 && i < strlen(buf);
 }
 
 int String::strlen(const char *s){
@@ -312,4 +308,12 @@ const char *String::strstr(const char *haystack, const char *needle) {
     return nullptr;
 }
 
+std::ostream &operator<<(std::ostream &out, const String &s) {
+    s.print(out);
+    return out;
+}
 
+std::istream &operator>>(std::istream &in, String &s) {
+    s.read(in);
+    return in;
+}
