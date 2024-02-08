@@ -44,9 +44,9 @@ String& String::operator=(const String &s) {
 
 String& String::operator=(String&& s) {
     if (this != &s) {
-        delete[] buf; // Free existing resources
-        buf = s.buf; // Transfer ownership of resources
-        s.buf = nullptr; // Set the source to a null state
+        delete[] buf; 
+        buf = s.buf; 
+        s.buf = nullptr;
     }
     return *this;
 }
@@ -91,11 +91,10 @@ int String::indexOf(char c) const {
     return -1; 
 }
 
-int String::indexOf(String s) const {
+int String::indexOf(const String& s) const {
     int len = strlen(buf);
     int sublen = s.size();
 
-    // If searching for an empty string, return 0
     if (sublen == 0) {
         return 0;
     }
@@ -104,15 +103,16 @@ int String::indexOf(String s) const {
         int j;
         for (j = 0; j < sublen; ++j) {
             if (buf[i + j] != s.buf[j]) {
-                break; // Characters don't match, break the inner loop
+                break; 
             }
         }
         if (j == sublen) {
-            return i; // Substring found at index i
+            return i; 
         }
     }
-    return -1; // Substring not found
+    return -1; 
 }
+
 
 
 bool String::operator==(const String &s) const {
