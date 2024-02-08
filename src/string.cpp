@@ -70,18 +70,20 @@ int String::size() const{
     return strlen(buf);
 }
 
-String String::reverse() const{
+String String::reverse() const {
     int len = size();
     char* reversedBuf = new char[len + 1]; // +1 for null terminator
 
-    // Assuming reverse_cpy correctly reverses the string
     String::reverse_cpy(reversedBuf, buf);
+    reversedBuf[len] = '\0';  // Ensuring null termination
 
-    String reversal(reversedBuf); // Use the constructor that takes a char*
-    delete[] reversedBuf; // Avoid memory leak
+    String reversal(reversedBuf);
+    delete[] reversedBuf; // Clean up
 
     return reversal;
 }
+
+
 
 int String::indexOf(char c) const {
     for (int i = 0; buf[i] != '\0'; ++i) {
