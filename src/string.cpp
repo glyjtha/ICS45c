@@ -72,15 +72,11 @@ int String::size() const{
 
 String String::reverse() const {
     int len = size();
-    char* reversedBuf = new char[len + 1]; // +1 for null terminator
+    String reversed(len + 1); // Use private constructor to allocate buffer
 
-    String::reverse_cpy(reversedBuf, buf);
-    reversedBuf[len] = '\0';  // Ensuring null termination
-
-    String reversal(reversedBuf);
-    delete[] reversedBuf; // Clean up
-
-    return reversal;
+    String::reverse_cpy(reversed.buf, buf);
+    
+    return reversed;
 }
 
 
@@ -150,13 +146,11 @@ String String::operator+(const String &s) const {
     int otherLen = strlen(s.buf);
     int totalLen = thisLen + otherLen;
 
-    char* concatStr = new char[totalLen + 1]; // +1 for null terminator
+    String result(totalLen + 1); // Use private constructor for allocation
 
-    strcpy(concatStr, buf);
-    strcat(concatStr, s.buf);
+    strcpy(result.buf, buf);
+    strcat(result.buf, s.buf);
 
-    String result(concatStr);
-    delete[] concatStr; // Avoid memory leak
     return result;
 }
 
@@ -175,7 +169,6 @@ String& String::operator+=(const String &s) {
 
     return *this;
 }
-
 
 void String::print(std::ostream &out) const{
     out << buf;
