@@ -49,11 +49,15 @@ String& String::operator=(String&& s) {
 }
 
 char& String::operator[](int index) {
-    return buf[index];
+    if (in_bounds(index)) {
+        return buf[index];
+    }
 }
 
 const char& String::operator[](int index) const {
-    return buf[index];
+    if (in_bounds(index)) {
+        return buf[index];
+    }
 }
 
 int String::size() const{
@@ -86,9 +90,9 @@ int String::indexOf(String s) const {
     int len = strlen(buf);
     int sublen = s.size();
 
-    if (sublen == 0){
-        return -1; // Edge case: searching for an empty string
-    
+    // If searching for an empty string, return 0
+    if (sublen == 0) {
+        return 0;
     }
 
     for (int i = 0; i <= len - sublen; ++i) {
@@ -104,6 +108,7 @@ int String::indexOf(String s) const {
     }
     return -1; // Substring not found
 }
+
 
 bool String::operator==(const String &s) const {
     bool value = strcmp(buf, s.buf) == 0;
