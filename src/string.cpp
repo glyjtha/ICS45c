@@ -49,8 +49,11 @@ String& String::operator=(String&& s) {
 }
 
 char& String::operator[](int index) {
-    if (in_bounds(index)) {
-        return buf[index];
+    if (in_bounds(index)){
+        return buf[index];}
+    else{
+        std::cout << "ERROR: Index Out Of Bounds" << std::endl;
+        return buf[0];
     }
 }
 
