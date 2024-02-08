@@ -13,6 +13,7 @@ public:
 
     //move constructor
     String(String&& s);
+    
 
     // construct this string by moving from string s
     // String(String &&s);

@@ -21,11 +21,14 @@ String::String(const String &s){
 }
 
 String::String(String&& s)
-    : buf(nullptr) // Correctly using member initializer list here
+    : buf(nullptr) 
 {
-    swap(s); // Inside the constructor body
+    swap(s); 
 }
 
+String::String(int length) : buf(new char[length]) {
+    std::fill_n(buf, length, '\0');
+}
 
 void String::swap(String& s){
     std::swap(buf, s.buf);
@@ -72,10 +75,8 @@ int String::size() const{
 
 String String::reverse() const {
     int len = size();
-    String reversed(len + 1); // Use private constructor to allocate buffer
-
+    String reversed(len + 1); 
     String::reverse_cpy(reversed.buf, buf);
-    
     return reversed;
 }
 
@@ -146,7 +147,7 @@ String String::operator+(const String &s) const {
     int otherLen = strlen(s.buf);
     int totalLen = thisLen + otherLen;
 
-    String result(totalLen + 1); // Use private constructor for allocation
+    String result(totalLen + 1); // Use private constructor to allocate buffer
 
     strcpy(result.buf, buf);
     strcat(result.buf, s.buf);
@@ -159,16 +160,19 @@ String& String::operator+=(const String &s) {
     int otherLen = strlen(s.buf);
     int totalLen = thisLen + otherLen;
 
-    char* newBuf = new char[totalLen + 1]; // +1 for null terminator
+    String temp(totalLen + 1); 
 
-    strcpy(newBuf, buf);
-    strcat(newBuf, s.buf);
+    strcpy(temp.buf, buf);
+    strcat(temp.buf, s.buf);
 
-    delete[] buf; // Free old buffer
-    buf = newBuf; // Point to new buffer
+    delete[] buf;  // Free old buffer
+    buf = temp.buf; // Reuse the buffer from temp
+    temp.buf = nullptr; // Prevent deletion in temp's destructor
 
     return *this;
 }
+
+
 
 void String::print(std::ostream &out) const{
     out << buf;
@@ -302,9 +306,8 @@ const char *String::strstr(const char *haystack, const char *needle) {
     int len = strlen(needle);
 
     for (const char *p = haystack; *p != '\0'; ++p) {
-        // Check if there are enough characters left in haystack
         if (strlen(p) < len) {
-            return nullptr; // Not enough characters for needle to fit
+            return nullptr; 
         }
         if (*p == needle[0]) {
             if (strncmp(p, needle, len) == 0) {
