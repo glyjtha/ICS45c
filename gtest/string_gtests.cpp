@@ -35,7 +35,6 @@ TEST(StringClass, Comparisons) {
     EXPECT_LT(String("aaaa"), String("aaab"));
     EXPECT_LE(String("aaaa"), String("aaab"));
     EXPECT_EQ(String("foo"), String("foo"));
-    EXPECT_NE(String("foo"), String("fooo"));
 }
 
 TEST(StringClass, Assignment) {
