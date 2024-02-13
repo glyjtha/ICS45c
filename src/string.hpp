@@ -53,7 +53,7 @@ public:
 
     // concatenate this and s to form a return string
     String operator+(const String &s) const;
-
+ 
     // concatenate s onto the end of this string
     String &operator+=(const String &s);
 
