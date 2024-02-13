@@ -6,15 +6,26 @@ list::Node* list::from_string(const char* s) {
         return nullptr;
     }
 
-    Node* head = new Node{s[0], nullptr};
-    Node* curr = head;
+    if (s[0] == '\0') { 
+        return nullptr;
+    }
 
-    for (int i = 1; s[i] != '\0'; ++i) {
-        curr->next = new Node{s[i], nullptr};
-        curr = curr->next;
+    Node* head = nullptr;
+    Node* curr = nullptr;
+
+    for (int i = 0; s[i] != '\0'; ++i) {
+        Node* newNode = new Node{s[i], nullptr};
+        
+        if (head == nullptr) {
+            head = newNode;
+        } else {
+            curr->next = newNode;
+        }
+        curr = newNode;
     }
     return head;
 }
+
 
 void list::free(Node* head){
     while (head != nullptr) {
