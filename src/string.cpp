@@ -7,6 +7,42 @@
 
 using namespace std;
 
+// String::String(const char *s) {
+//     if (s) {
+//         head = nullptr;
+//         list::Node* tail = nullptr;
+//         while (*s) {
+//             list::Node* newNode = new list::Node{*s, nullptr};
+//             if (!head) {
+//                 head = newNode;
+//             } else {
+//                 tail->next = newNode;
+//             }
+//             tail = newNode;
+//             ++s;
+//         }
+//     } else {
+//         head = nullptr;
+//     }
+// }
+
+// String::String(const String &s) : head(nullptr) {
+//     if (s.head) {
+//         head = new list::Node{s.head->data, nullptr};
+//         list::Node* srcNode = s.head->next;
+//         list::Node* destNode = head;
+//         while (srcNode) {
+//             destNode->next = new list::Node{srcNode->data, nullptr};
+//             destNode = destNode->next;
+//             srcNode = srcNode->next;
+//         }
+//     }
+//     else{
+//         head = nullptr;
+//     }
+// }
+
+
 bool String::operator==(const String& other) const {
     if (this == &other) {
         return true;
