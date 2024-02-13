@@ -118,24 +118,18 @@ int list::length(Node* head) {
 }
 
 list::Node* list::reverse(Node* head) {
-    Node* curr = head;
-    Node* prev = nullptr;
-    Node* next = nullptr;
+    Node* newHead = nullptr;
 
-    while (curr != nullptr) {
-        // Store next
-        next = curr->next;
+    while (head != nullptr) {
+        Node* newNode = new Node{head->data, newHead};
+        newHead = newNode;
 
-        // Reverse current node's pointer
-        curr->next = prev;
-
-        // Move pointers one position ahead
-        prev = curr;
-        curr = next;
+        head = head->next;
     }
 
-    return prev;
+    return newHead;
 }
+
 
 list::Node* list::append(Node* lhs, Node* rhs){
     if (lhs == nullptr) {

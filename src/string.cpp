@@ -47,7 +47,13 @@ int String::size() const {
 }
 
 String String::reverse() const {
-    return String(list::reverse(head));
+   list::Node* reversedHead = list::reverse(head);
+
+    // Create a new String object with the reversed list
+    String reversedString(reversedHead);
+
+    // The new String object (reversedString) is responsible for freeing the reversed list
+    return reversedString;
 }
 
 int String::indexOf(char c) const {
