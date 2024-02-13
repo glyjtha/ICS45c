@@ -64,17 +64,6 @@ bool String::operator==(const String& other) const {
 }
 
 
-bool String::operator!=(const String& other) const {//negating operator==
-    return !(*this == other);
-}
-
 std::strong_ordering String::operator<=>(const String &other) const {
-    int cmp = list::compare(head, other.head);
-    if (cmp < 0) {
-        return std::strong_ordering::less;
-    }
-    if (cmp > 0) { 
-        return std::strong_ordering::greater;
-    }
-    return std::strong_ordering::equal;
+    return list::compare(head, other.head) <=> 0;
 }
