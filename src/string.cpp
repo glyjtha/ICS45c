@@ -45,7 +45,7 @@ using namespace std;
 
 bool String::operator==(const String& other) const {
     if (this == &other) {
-        return true;
+        return true; // Self-comparison
     }
 
     list::Node* current1 = this->head;
@@ -53,14 +53,16 @@ bool String::operator==(const String& other) const {
 
     while (current1 != nullptr && current2 != nullptr) {
         if (current1->data != current2->data) {
-            return false; 
+            return false; // Characters differ
         }
         current1 = current1->next;
         current2 = current2->next;
     }
 
+    // Check if both lists reached the end (same length)
     return current1 == nullptr && current2 == nullptr;
-    }
+}
+
 
 bool String::operator!=(const String& other) const {//negating operator==
     return !(*this == other);

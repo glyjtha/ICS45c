@@ -1,7 +1,7 @@
 #include <iostream>
-using namespace std;
+#include "list.hpp"
 
-Node* from_string(const char* s) {
+list::Node* list::from_string(const char* s) {
     if (s == nullptr) {
         return nullptr;
     }
@@ -16,7 +16,7 @@ Node* from_string(const char* s) {
     return head;
 }
 
-void free(Node* head){
+void list::free(Node* head){
     while (head != nullptr) {
         Node *temp = head->next;
         delete head;
@@ -24,7 +24,7 @@ void free(Node* head){
     }
 }
 
-void print(std::ostream& out, Node* head){
+void list::print(std::ostream& out, Node* head){
     Node* curr = head;
     while(curr != nullptr){
         out<< curr->data;
@@ -32,7 +32,7 @@ void print(std::ostream& out, Node* head){
     }
 }
 
-Node* copy(Node* head){
+list::Node* list::copy(Node* head){
     if (head==nullptr){
         return nullptr;
     }
@@ -49,63 +49,64 @@ Node* copy(Node* head){
     return result;
 }
 
-int list::compare(Node* lhs, Node* rhs){
-        while (head1 != nullptr && head2 != nullptr) {
-            if (head1->data < head2->data) {
-                return -1;
-            }
-            if (head1->data > head2->data) {
-                return 1;
-            }
-            head1 = head1->next;
-            head2 = head2->next;
-        }
-
-        if (head1 == nullptr && head2 == nullptr) {
-            return 0;
-        }
-
-        if (head1 == nullptr) {
+int list::compare(Node* lhs, Node* rhs) {
+    while (lhs != nullptr && rhs != nullptr) {
+        if (lhs->data < rhs->data) {
             return -1;
         }
-
-        return 1;
-}
-
-int list::compare(Node* lhs, Node* rhs, int n){
-    int count = 0;
-    while(lhs != nullptr && rhs != nullptr && count < n){
-        if (lhs->data != rhs->data) {
-            return lhs->data - rhs->data;
+        if (lhs->data > rhs->data) {
+            return 1;
         }
-    lhs = lhs->next;
-    rhs = rhs->next;
-    count++;
+        lhs = lhs->next;
+        rhs = rhs->next;
     }
 
-    if (count == n || (lhs == nullptr && rhs == nullptr)) {
+    if (lhs == nullptr && rhs == nullptr) {
         return 0;
     }
 
-    if (lhs == nullptr){
+    if (lhs == nullptr) {
         return -1;
     }
 
-    if(rhs == nullptr){
+    return 1;
+}
+
+
+int list::compare(Node* lhs, Node* rhs, int n) {
+    int count = 0;
+    while (lhs != nullptr && rhs != nullptr && count < n) {
+        if (lhs->data != rhs->data) {
+            return lhs->data - rhs->data;
+        }
+        lhs = lhs->next;
+        rhs = rhs->next;
+        count++;
+    }
+
+    if (count == n) {
+        return 0;
+    }
+
+    if (lhs == nullptr && rhs == nullptr) {
+        return 0;
+    } else if (lhs == nullptr) {
+        return -1;
+    } else if (rhs == nullptr) {
         return 1;
     }
 
     return 0;
 }
 
-int length(Node* head) {
+int list::length(Node* head) {
     if (head == nullptr) {
         return 0;
     }
     return 1 + length(head->next);
 }
 
-Node* reverse(Node* head) {
+list::Node* list::reverse(Node* head) {
     Node* curr = head;
     Node* prev = nullptr;
     Node* next = nullptr;
@@ -125,7 +126,7 @@ Node* reverse(Node* head) {
     return prev;
 }
 
-Node* append(Node* lhs, Node* rhs){
+list::Node* list::append(Node* lhs, Node* rhs){
     if (lhs == nullptr) {
         return copy(rhs);
     }
@@ -146,7 +147,7 @@ Node* append(Node* lhs, Node* rhs){
     return result;
 }
 
-int index(Node* head, Node* node) {
+int list::index(Node* head, Node* node) {
     int count = 0;
     Node* curr = head;
 
@@ -161,7 +162,7 @@ int index(Node* head, Node* node) {
     return -1;
 }
 
-Node* find_char(Node* head, char c) {
+list::Node* list::find_char(Node* head, char c) {
     Node* current = head;
     while (current != nullptr) {
         if (current->data == c) {
@@ -172,7 +173,7 @@ Node* find_char(Node* head, char c) {
     return nullptr; // Character not found
 }
 
-Node* find_list(Node* haystack, Node* needle) {
+list::Node* list::find_list(Node* haystack, Node* needle) {
     if (needle == nullptr) return haystack; // An empty needle is found in any haystack
 
     Node* currentHaystack = haystack;
@@ -195,7 +196,7 @@ Node* find_list(Node* haystack, Node* needle) {
     return nullptr; // Needle not found in haystack
 }
 
-Node* nth(Node* head, int n) {
+list::Node* list::nth(Node* head, int n) {
     Node* current = head;
     int count = 0;
     while (current != nullptr) {
@@ -208,7 +209,7 @@ Node* nth(Node* head, int n) {
     return nullptr; // n-th node not found (list is shorter than n)
 }
 
-Node* last(Node* head) {
+list::Node* list::last(Node* head) {
     if (head == nullptr) {
         return nullptr; 
     }
