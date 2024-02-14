@@ -39,7 +39,12 @@ bool String::in_bounds(int index) const {
 
 char String::operator[](int index) const {
     list::Node* node = list::nth(head, index);
-    return node ? node->data : '\0';
+    if (node) {
+        return node->data;
+    } else {
+        std::cout << "ERROR: Index Out Of Bounds" << std::endl;
+        return '\0';
+    }
 }
 
 int String::size() const {
@@ -82,11 +87,26 @@ String String::operator+(const String& s) const {
 }
 
 String& String::operator+=(const String& s) {
-    list::Node* newHead = list::append(head, s.head);
-    list::free(head);
-    head = newHead;
+    if (this == &s) {
+        String temp(s); 
+        *this += temp; 
+        return *this;
+    }
+
+    if (!head) {
+        head = list::copy(s.head);
+    } else {
+        list::Node* current = head;
+        while (current->next) {
+            current = current->next;
+        }
+
+        current->next = list::copy(s.head);
+    }
     return *this;
 }
+
+
 
 void String::print(std::ostream& out) const {
     list::print(out, head);
