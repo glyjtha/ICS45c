@@ -224,3 +224,4 @@ list::Node* list::last(Node* head) {
     }
     return current; 
 }
+
