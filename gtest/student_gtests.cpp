@@ -325,7 +325,7 @@ TEST(ListTests, Index) {
     }
 
     // Test empty list
-    Node* emptyList = "";
+    Node* emptyList = list::from_string("");
     Node* someNode = new Node{'y', nullptr};
     EXPECT_EQ(list::index(emptyList, someNode), -1);
     delete someNode;
@@ -400,7 +400,7 @@ TEST(ListTests, NthNode) {
     EXPECT_EQ(negativeIndexNode, nullptr);
 
     // Test empty list
-    Node* emptyList = "";
+    Node* emptyList = list::from_string("");;
     Node* nthInEmpty = list::nth(emptyList, 2);
     EXPECT_EQ(nthInEmpty, nullptr);
 
@@ -417,7 +417,7 @@ TEST(ListTests, LastNode) {
     list::free(nonEmptyList);
 
     // Test last node in empty list
-    Node* emptyList = "";
+    Node* emptyList = list::from_string("");;
     Node* lastNodeInEmpty = list::last(emptyList);
     EXPECT_EQ(lastNodeInEmpty, nullptr);
 
