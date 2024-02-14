@@ -398,7 +398,7 @@ TEST(ListTests, FindList) {
 TEST(ListTests, NthNode) {
     Node* list = list::from_string("abcde");
     Node* beyondNode = list::nth(list, 3);
-    EXPECT_EQ(beyondNode->data, 'c');
+    EXPECT_EQ(beyondNode->data, 'd');
 
     list::free(list);
 }
@@ -407,7 +407,7 @@ TEST(ListTests, LastNode) {
     Node* nonEmptyList = list::from_string("abc");
     Node* lastNode = list::last(nonEmptyList);
     ASSERT_NE(lastNode, nullptr);
-    EXPECT_EQ(lastNode->data, 'd');
+    EXPECT_EQ(lastNode->data, 'c');
     list::free(nonEmptyList);
 
     Node* singleNodeList = list::from_string("a");
