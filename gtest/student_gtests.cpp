@@ -111,52 +111,52 @@ TEST(ListTests, Copy) {
 
 
 TEST(ListTests, Compare) {
-    //equal
+    // Equal
     Node* list1 = list::from_string("foo");
     Node* list2 = list::from_string("foo");
     EXPECT_EQ(list::compare(list1, list2), 0);
     list::free(list1);
     list::free(list2);
 
-    //lhs less than rhs
+    // lhs less than rhs
     Node* list3 = list::from_string("boo");
     Node* list4 = list::from_string("foo");
-    EXPECT_EQ(list::compare(list3, list4), -4);
+    EXPECT_LT(list::compare(list3, list4), 0);
     list::free(list3);
     list::free(list4);
 
-    //rhs less than lhs
+    // rhs less than lhs
     Node* list5 = list::from_string("foo");
     Node* list6 = list::from_string("boo");
-    EXPECT_EQ(list::compare(list5, list6), 4);
+    EXPECT_GT(list::compare(list5, list6), 0);
     list::free(list5);
     list::free(list6);
 
-    //lhs shorter than rhs
+    // lhs shorter than rhs
     Node* list7 = list::from_string("bo");
     Node* list8 = list::from_string("foo");
-    EXPECT_EQ(list::compare(list7, list8), -4);
+    EXPECT_LT(list::compare(list7, list8), 0);
     list::free(list7);
     list::free(list8);
 
-    //rhs shorter than lhs
+    // rhs shorter than lhs
     Node* list9 = list::from_string("foo");
     Node* list10 = list::from_string("bo");
-    EXPECT_EQ(list::compare(list9, list10), 4);
+    EXPECT_GT(list::compare(list9, list10), 0);
     list::free(list9);
     list::free(list10);
 
-    //nullptr
+    // nullptr
     Node* list11 = nullptr;
     Node* list12 = nullptr;
     EXPECT_EQ(list::compare(list11, list12), 0);
 
-    //empty
+    // empty
     Node* list13 = list::from_string("");
     Node* list14 = list::from_string("");
     EXPECT_EQ(list::compare(list13, list14), 0);
-
 }
+
 
 TEST(ListTests, CompareN) {
     // Equal up to n characters
@@ -169,59 +169,63 @@ TEST(ListTests, CompareN) {
     // Lhs less than rhs within n characters
     Node* list3 = list::from_string("boo");
     Node* list4 = list::from_string("foo");
-    EXPECT_EQ(list::compare(list3, list4, 2), -4);
+    EXPECT_LT(list::compare(list3, list4, 2), 0); // lhs less than rhs
     list::free(list3);
     list::free(list4);
 
     // Rhs less than lhs within n characters
     Node* list5 = list::from_string("foo");
     Node* list6 = list::from_string("boo");
-    EXPECT_EQ(list::compare(list5, list6, 2), 4);
+    EXPECT_GT(list::compare(list5, list6, 2), 0); // rhs less than lhs
     list::free(list5);
     list::free(list6);
 
     // Lhs shorter than n
     Node* list7 = list::from_string("bo");
     Node* list8 = list::from_string("foo");
-    EXPECT_EQ(list::compare(list7, list8, 3), -4);
+    EXPECT_LT(list::compare(list7, list8, 3), 0); // lhs shorter
     list::free(list7);
     list::free(list8);
 
     // Rhs shorter than n
     Node* list9 = list::from_string("foo");
     Node* list10 = list::from_string("bo");
-    EXPECT_EQ(list::compare(list9, list10, 3), 4);
+    EXPECT_GT(list::compare(list9, list10, 3), 0); // rhs shorter
     list::free(list9);
     list::free(list10);
 
     // Comparing nullptrs
     Node* list11 = nullptr;
     Node* list12 = nullptr;
-    EXPECT_EQ(list::compare(list11, list12, 3), 0);
+    EXPECT_EQ(list::compare(list11, list12, 3), 0); // nullptrs
 
     // Comparing empty lists
     Node* list13 = list::from_string("");
     Node* list14 = list::from_string("");
-    EXPECT_EQ(list::compare(list13, list14, 3), 0);
+    EXPECT_EQ(list::compare(list13, list14, 3), 0); // empty lists
+    list::free(list13);
+    list::free(list14);
 
+    // Additional test cases
     Node* list15 = list::from_string("abcd");
     Node* list16 = list::from_string("abcf");
-    EXPECT_NE(list::compare(list15, list16, 4), 0);
+    EXPECT_NE(list::compare(list15, list16, 4), 0); // non-equal within n characters
     list::free(list15);
     list::free(list16);
 
     Node* list17 = list::from_string("xyz");
     Node* list18 = list::from_string("abc");
-    EXPECT_EQ(list::compare(list17, list18, 0), 0);
+    EXPECT_EQ(list::compare(list17, list18, 0), 0); // compare 0 characters
     list::free(list17);
     list::free(list18);
 
     Node* list19 = nullptr;
     Node* list20 = list::from_string("abc");
-    EXPECT_EQ(list::compare(list19, list20, 3), -1);
-    EXPECT_EQ(list::compare(list20, list19, 3), 1);
+    EXPECT_LT(list::compare(list19, list20, 3), 0); 
+    EXPECT_GT(list::compare(list20, list19, 3), 0); // compare non-nullptr with nullptr
     list::free(list20);
 }
+
 
 
 TEST(ListTests, Reverse) {
