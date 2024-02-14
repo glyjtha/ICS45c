@@ -403,16 +403,16 @@ TEST(ListTests, NthNode) {
 
     // Test position beyond list length
     Node* beyondNode = list::nth(list, 10);
-    EXPECT_EQ(beyondNode, nullptr) << "Accessing node beyond list length should return nullptr";
+    EXPECT_EQ(beyondNode, nullptr);
 
     // Test negative index, should return nullptr
     Node* negativeIndexNode = list::nth(list, -1);
-    EXPECT_EQ(negativeIndexNode, nullptr) << "Negative index should return nullptr";
+    EXPECT_EQ(negativeIndexNode, nullptr);
 
     // Test empty list
     Node* emptyList = nullptr;
     Node* nthInEmpty = list::nth(emptyList, 2);
-    EXPECT_EQ(nthInEmpty, nullptr) << "Accessing node in empty list should return nullptr";
+    EXPECT_EQ(nthInEmpty, nullptr);
 
     // Free the list
     list::free(list);
