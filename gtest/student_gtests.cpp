@@ -406,16 +406,18 @@ TEST(ListTests, NthNode) {
     EXPECT_EQ(negativeIndexNode, nullptr);
 
     Node* emptyList = list::from_string("");
-    ASSERT_EQ(emptyList, nullptr); 
+    ASSERT_EQ(emptyList, nullptr);
+
+    // Free the list
+    list::free(list);
 
     if (emptyList != nullptr) {
         Node* nthInEmpty = list::nth(emptyList, 2);
         EXPECT_EQ(nthInEmpty, nullptr);
         list::free(emptyList);
     }
-
-    list::free(list);
 }
+
 
 
 TEST(ListTests, LastNode) {
