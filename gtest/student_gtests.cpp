@@ -7,8 +7,11 @@ using list::Node;
 
 TEST(ListTests, FromStringBasic) {
     Node* const foo_list_head = list::from_string("foo");
-    Node* foo_list = foo_list_head;
 
+    // Ensure the list head is not null before proceeding
+    ASSERT_NE(foo_list_head, nullptr);
+
+    Node* foo_list = foo_list_head;
     EXPECT_EQ(foo_list->data, 'f');
     ASSERT_NE(foo_list->next, nullptr);
 
@@ -28,7 +31,6 @@ TEST(ListTests, FromStringBasic) {
     
     list::free(foo_list_head);
 }
-
 
 TEST(ListTests, Length) {
     Node* const head = list::from_string("foo");
