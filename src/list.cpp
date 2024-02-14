@@ -205,12 +205,12 @@ list::Node* list::nth(Node* head, int n) {
     int count = 0;
     while (current != nullptr) {
         if (count == n) {
-            return current; // n-th node found
+            return current; 
         }
         current = current->next;
         ++count;
     }
-    return nullptr; // n-th node not found (list is shorter than n)
+    return nullptr; 
 }
 
 list::Node* list::last(Node* head) {

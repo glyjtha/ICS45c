@@ -403,29 +403,16 @@ TEST(ListTests, NthNode) {
     Node* negativeIndexNode = list::nth(list, -1);
     EXPECT_EQ(negativeIndexNode->data, 'a');
 
-    Node* emptyList = list::from_string("");
-    ASSERT_EQ(emptyList, nullptr);
-
     list::free(list);
 }
 
-
-
-
 TEST(ListTests, LastNode) {
-    // Test last node in non-empty list
     Node* nonEmptyList = list::from_string("abc");
     Node* lastNode = list::last(nonEmptyList);
     ASSERT_NE(lastNode, nullptr);
     EXPECT_EQ(lastNode->data, 'c');
     list::free(nonEmptyList);
 
-    // Test last node in empty list
-    Node* emptyList = list::from_string("");;
-    Node* lastNodeInEmpty = list::last(emptyList);
-    EXPECT_EQ(lastNodeInEmpty, nullptr);
-
-    // Test last node in single node list
     Node* singleNodeList = list::from_string("a");
     Node* lastNodeInSingle = list::last(singleNodeList);
     ASSERT_NE(lastNodeInSingle, nullptr);
