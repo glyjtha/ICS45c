@@ -395,26 +395,28 @@ TEST(ListTests, FindList) {
     // Free the haystack list
     list::free(haystack);
 }
-
 TEST(ListTests, NthNode) {
     Node* list = list::from_string("abcde");
+    ASSERT_NE(list, nullptr); 
 
-    // Test position beyond list length
     Node* beyondNode = list::nth(list, 10);
     EXPECT_EQ(beyondNode, nullptr);
 
-    // Test negative index, should return nullptr
     Node* negativeIndexNode = list::nth(list, -1);
     EXPECT_EQ(negativeIndexNode, nullptr);
 
-    // Test empty list
-    Node* emptyList = list::from_string("");;
-    Node* nthInEmpty = list::nth(emptyList, 2);
-    EXPECT_EQ(nthInEmpty, nullptr);
+    Node* emptyList = list::from_string("");
+    ASSERT_EQ(emptyList, nullptr); 
 
-    // Free the list
+    if (emptyList != nullptr) {
+        Node* nthInEmpty = list::nth(emptyList, 2);
+        EXPECT_EQ(nthInEmpty, nullptr);
+        list::free(emptyList);
+    }
+
     list::free(list);
 }
+
 
 TEST(ListTests, LastNode) {
     // Test last node in non-empty list
