@@ -47,12 +47,10 @@ int String::size() const {
 }
 
 String String::reverse() const {
-   list::Node* reversedHead = list::reverse(head);
+    list::Node* reversedHead = list::reverse(head);
 
-    // Create a new String object with the reversed list
     String reversedString(reversedHead);
 
-    // The new String object (reversedString) is responsible for freeing the reversed list
     return reversedString;
 }
 
@@ -63,10 +61,13 @@ int String::indexOf(char c) const {
 
 
 int String::indexOf(const String& s) const {
+    if (s.head == nullptr) {
+        return 0;
+    }
+
     list::Node* startNode = list::find_list(head, s.head);
     return list::index(head, startNode);
 }
-
 
 bool String::operator==(const String& s) const {
     return (*this <=> s) == std::strong_ordering::equal;

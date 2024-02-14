@@ -126,7 +126,6 @@ list::Node* list::reverse(Node* head) {
 
         head = head->next;
     }
-
     return newHead;
 }
 
