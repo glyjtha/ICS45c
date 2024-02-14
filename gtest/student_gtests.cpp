@@ -419,6 +419,7 @@ TEST(ListTests, NthNode) {
 }
 
 TEST(ListTests, LastNode) {
+    // Test last node in non-empty list
     Node* nonEmptyList = list::from_string("abc");
     Node* lastNode = list::last(nonEmptyList);
     ASSERT_NE(lastNode, nullptr);
@@ -437,3 +438,4 @@ TEST(ListTests, LastNode) {
     EXPECT_EQ(lastNodeInSingle->data, 'a');
     list::free(singleNodeList);
 }
+
