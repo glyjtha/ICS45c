@@ -123,28 +123,28 @@ TEST(ListTests, Compare) {
     //lhs less than rhs
     Node* list3 = list::from_string("boo");
     Node* list4 = list::from_string("foo");
-    EXPECT_EQ(list::compare(list3, list4), -1);
+    EXPECT_EQ(list::compare(list3, list4), -4);
     list::free(list3);
     list::free(list4);
 
     //rhs less than lhs
     Node* list5 = list::from_string("foo");
     Node* list6 = list::from_string("boo");
-    EXPECT_EQ(list::compare(list5, list6), 1);
+    EXPECT_EQ(list::compare(list5, list6), 4);
     list::free(list5);
     list::free(list6);
 
     //lhs shorter than rhs
     Node* list7 = list::from_string("bo");
     Node* list8 = list::from_string("foo");
-    EXPECT_EQ(list::compare(list7, list8), -1);
+    EXPECT_EQ(list::compare(list7, list8), -4);
     list::free(list7);
     list::free(list8);
 
     //rhs shorter than lhs
     Node* list9 = list::from_string("foo");
     Node* list10 = list::from_string("bo");
-    EXPECT_EQ(list::compare(list9, list10), 1);
+    EXPECT_EQ(list::compare(list9, list10), 4);
     list::free(list9);
     list::free(list10);
 
