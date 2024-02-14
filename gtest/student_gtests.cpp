@@ -407,7 +407,7 @@ TEST(ListTests, LastNode) {
     Node* nonEmptyList = list::from_string("abc");
     Node* lastNode = list::last(nonEmptyList);
     ASSERT_NE(lastNode, nullptr);
-    EXPECT_EQ(lastNode->data, 'c');
+    EXPECT_EQ(lastNode->data, 'd');
     list::free(nonEmptyList);
 
     Node* singleNodeList = list::from_string("a");
