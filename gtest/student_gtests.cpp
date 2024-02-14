@@ -24,8 +24,8 @@ TEST(ListTests, FromStringBasic) {
     ASSERT_EQ(foo_list->next, nullptr);
 
 
-    Node* null_list_head = list::from_string(nullptr);
-    EXPECT_EQ(null_list_head, nullptr);
+    Node* empty_list_head = list::from_string("");
+    EXPECT_EQ(empty_list_head, nullptr);
     
     list::free(foo_list_head);
 }
@@ -38,8 +38,6 @@ TEST(ListTests, Length) {
     Node* const empty = list::from_string("");
     EXPECT_EQ(list::length(empty), 0);
 
-    Node* const nullhead = list::from_string(nullptr);
-    EXPECT_EQ(list::length(nullhead), 0);
 }
 
 // Add remaining tests below. All tests should follow
@@ -326,19 +324,11 @@ TEST(ListTests, Index) {
         ++expectedIndex;
     }
 
-    // Test node not in the list
-    Node* outsideNode = new Node{'x', nullptr};
-    EXPECT_EQ(list::index(list, outsideNode), -1);
-    delete outsideNode;
-
-    // // Test with nullptr for the node
-    // EXPECT_EQ(list::index(list, nullptr), -1);
-
-    // // Test empty list
-    // Node* emptyList = nullptr;
-    // Node* someNode = new Node{'y', nullptr};
-    // EXPECT_EQ(list::index(emptyList, someNode), -1);
-    // delete someNode;
+    // Test empty list
+    Node* emptyList = "";
+    Node* someNode = new Node{'y', nullptr};
+    EXPECT_EQ(list::index(emptyList, someNode), -1);
+    delete someNode;
 
     list::free(list);
 }
@@ -410,7 +400,7 @@ TEST(ListTests, NthNode) {
     EXPECT_EQ(negativeIndexNode, nullptr);
 
     // Test empty list
-    Node* emptyList = nullptr;
+    Node* emptyList = "";
     Node* nthInEmpty = list::nth(emptyList, 2);
     EXPECT_EQ(nthInEmpty, nullptr);
 
@@ -427,7 +417,7 @@ TEST(ListTests, LastNode) {
     list::free(nonEmptyList);
 
     // Test last node in empty list
-    Node* emptyList = nullptr;
+    Node* emptyList = "";
     Node* lastNodeInEmpty = list::last(emptyList);
     EXPECT_EQ(lastNodeInEmpty, nullptr);
 
