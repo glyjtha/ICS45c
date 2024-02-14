@@ -26,7 +26,6 @@ TEST(ListTests, FromStringBasic) {
     Node* null_list_head = list::from_string(nullptr);
     EXPECT_EQ(null_list_head, nullptr);
     
-    list::free(single_char_head);
     list::free(foo_list_head);
 }
 
