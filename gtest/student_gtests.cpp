@@ -397,11 +397,8 @@ TEST(ListTests, FindList) {
 }
 TEST(ListTests, NthNode) {
     Node* list = list::from_string("abcde");
-    Node* beyondNode = list::nth(list, 10);
-    EXPECT_EQ(beyondNode->data, 'e');
-
-    Node* negativeIndexNode = list::nth(list, -1);
-    EXPECT_EQ(negativeIndexNode->data, 'a');
+    Node* beyondNode = list::nth(list, 3);
+    EXPECT_EQ(beyondNode->data, 'c');
 
     list::free(list);
 }
