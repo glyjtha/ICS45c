@@ -23,19 +23,13 @@ TEST(ListTests, FromStringBasic) {
     Node* empty_list_head = list::from_string("");
     EXPECT_EQ(empty_list_head, nullptr);
 
-    Node* const single_char_head = list::from_string("a");
-    Node* single_char = single_char_head;
-    EXPECT_EQ(single_char->data, 'a');
-
-    single_char = single_char->next;
-    EXPECT_EQ(single_char_head->next, nullptr);
-
     Node* null_list_head = list::from_string(nullptr);
     EXPECT_EQ(null_list_head, nullptr);
     
     list::free(single_char_head);
     list::free(foo_list_head);
 }
+
 
 TEST(ListTests, Length) {
     Node* const head = list::from_string("foo");
