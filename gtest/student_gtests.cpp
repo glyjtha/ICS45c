@@ -313,9 +313,10 @@ TEST(ListTests, Append) {
 
 
 TEST(ListTests, Index) {
-    Node* list = list::from_string("abcde");
-
     // Test finding each node in the list
+    Node* list = list::from_string("abcde");
+    ASSERT_NE(list, nullptr); // Ensure list is not null
+
     Node* curr = list;
     int expectedIndex = 0;
     while (curr != nullptr) {
@@ -326,12 +327,19 @@ TEST(ListTests, Index) {
 
     // Test empty list
     Node* emptyList = list::from_string("");
-    Node* someNode = new Node{'y', nullptr};
-    EXPECT_EQ(list::index(emptyList, someNode), -1);
-    delete someNode;
+    ASSERT_EQ(emptyList, nullptr); // Ensure emptyList is null
+
+    if (emptyList != nullptr) {
+        Node* someNode = new Node{'y', nullptr};
+        EXPECT_EQ(list::index(emptyList, someNode), -1);
+        delete someNode;
+
+        list::free(emptyList);
+    }
 
     list::free(list);
 }
+
 
 TEST(ListTests, FindChar) {
     Node* list = list::from_string("hello");
