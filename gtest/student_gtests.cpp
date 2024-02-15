@@ -93,7 +93,7 @@ TEST(ListTests, Copy) {
     EXPECT_EQ(foolCurr, nullptr);
     EXPECT_EQ(copiedCurr, nullptr);
 
-    list::free(foo_list);      // Corrected: Free the original list, not the iterator
+    list::free(foo_list);
     list::free(copiedList);
 
     Node* empty_list = list::from_string("");
@@ -155,7 +155,31 @@ TEST(ListTests, Compare) {
     Node* list13 = list::from_string("");
     Node* list14 = list::from_string("");
     EXPECT_EQ(list::compare(list13, list14), 0);
+
+    // empty list vs non-empty list
+    Node* list15 = list::from_string("");
+    Node* list16 = list::from_string("abc");
+    EXPECT_LT(list::compare(list15, list16), 0);
+    EXPECT_GT(list::compare(list16, list15), 0);
+    list::free(list15);
+    list::free(list16);
+
+    // same content, different lengths
+    Node* list17 = list::from_string("ab");
+    Node* list18 = list::from_string("abc");
+    EXPECT_LT(list::compare(list17, list18), 0);
+    EXPECT_GT(list::compare(list18, list17), 0);
+    list::free(list17);
+    list::free(list18);
+
+    // comparing nullptr with non-nullptr
+    Node* list19 = nullptr;
+    Node* list20 = list::from_string("abc");
+    EXPECT_LT(list::compare(list19, list20), 0);
+    EXPECT_GT(list::compare(list20, list19), 0);
+    list::free(list20);
 }
+
 
 
 TEST(ListTests, CompareN) {
@@ -206,7 +230,6 @@ TEST(ListTests, CompareN) {
     list::free(list13);
     list::free(list14);
 
-    // Additional test cases
     Node* list15 = list::from_string("abcd");
     Node* list16 = list::from_string("abcf");
     EXPECT_NE(list::compare(list15, list16, 4), 0); // non-equal within n characters
