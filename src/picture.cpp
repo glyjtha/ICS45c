@@ -26,4 +26,10 @@ void Picture::swap(Picture& other){
 }
 
 Picture& Picture::operator=(const Picture& other){
+    if (this != &other) { 
+        Picture temp(other); 
+        swap(temp);
+    }
+    return *this;
 }
+
