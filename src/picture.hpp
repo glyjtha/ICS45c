@@ -19,7 +19,7 @@ public:
 
     // copy and move assignment for Picture (good C++ practice)
     Picture& operator=(const Picture& other);
-    Picture& operator=(Picture&& other);
+    Picture& operator=(Picture&& other) noexcept;
 
     // adds a clone of shape to the end of this Picture’s linked list.
     // Cloning allows us to create any number of shape objects

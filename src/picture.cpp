@@ -15,7 +15,8 @@ Picture::Picture(const Picture& other): head(nullptr), tail(nullptr){
 }
 
 //move constructor
-Picture::Picture(Picture&& other): head(nullptr), tail(nullptr){
+Picture::Picture(Picture&& other)
+    : head(other.head), tail(other.tail) {
     other.head = nullptr;
     other.tail = nullptr;
 }
@@ -33,16 +34,31 @@ Picture& Picture::operator=(const Picture& other){
     return *this;
 }
 
-Picture& Picture::operator=(Picture&& other){
+Picture& Picture::operator=(Picture&& other) noexcept {
     if (this != &other) {
+        // Release any existing resources
+        ListNode* current = head;
+        while (current != nullptr) {
+            ListNode* next = current->next;
+            delete current->shape;  // Assuming shape is dynamically allocated
+            delete current;
+            current = next;
+        }
+        head = nullptr;
+        tail = nullptr;
+    
+
+        // Transfer ownership of resources
         head = other.head;
         tail = other.tail;
 
+        // Set 'other' to a safe empty state
         other.head = nullptr;
         other.tail = nullptr;
     }
     return *this;
 }
+
 
 void Picture::add(const Shape& shape){
      ListNode* newNode = new ListNode{shape.clone(), nullptr};
