@@ -75,8 +75,8 @@ void Picture::add(const Shape& shape){
 void Picture::print_all(std::ostream& out) const {
     ListNode* current = head;
     while (current != nullptr) {
-        current->shape->print(out); // Print the name and coordinates of the shape.
-        current->shape->draw(out);  // Draw the ASCII representation of the shape.
+        current->shape->print(out);
+        current->shape->draw(out);
         current = current->next;
     }
 }
