@@ -19,3 +19,24 @@ TEST(MatrixTests, RowsAndCols) {
     EXPECT_EQ(mat3.num_rows(), 0);
     EXPECT_EQ(mat3.num_cols(), 0);
 }
+
+TEST(MatrixTests, FillWithValue) {
+    Matrix<int> mat{2, 3};
+    mat.fill(5);
+    for (int i = 0; i < mat.num_rows(); ++i) {
+        for (int j = 0; j < mat.num_cols(); ++j) {
+            EXPECT_EQ(mat[i][j], 5);
+        }
+    }
+}
+
+TEST(MatrixTests, FillWithFunction) {
+    Matrix<int> mat{2, 2};
+    auto fn = [](int i, int j) { return i + j; };
+    mat.fill_with_fn(fn);
+    for (int i = 0; i < mat.num_rows(); ++i) {
+        for (int j = 0; j < mat.num_cols(); ++j) {
+            EXPECT_EQ(mat[i][j], i + j);
+        }
+    }
+}
