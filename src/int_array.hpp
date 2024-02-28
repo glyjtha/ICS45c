@@ -82,7 +82,7 @@ private:
 // Print array to 'out' in a single line.
 inline std::ostream& operator<<(std::ostream& out, const Array& array) {
     for (int i = 0; i < array.length(); ++i) {
-        out << std::setw(8) << array[i]; // Set width to ensure alignment
+        out << std::fixed << std::setprecision(2) << std::setw(8) << array[i]; // Set width and precision
     }
     return out;
 }
