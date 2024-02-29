@@ -1,7 +1,7 @@
 #ifndef INT_ARRAY_HPP
 #define INT_ARRAY_HPP
 
-#include <stdexcept>
+#include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <utility>
@@ -81,9 +81,14 @@ private:
 
 // Print array to 'out' in a single line.
 inline std::ostream& operator<<(std::ostream& out, const Array& array) {
+    std::ostringstream temp;
+    temp << std::setprecision(2) << std::fixed << std::right;
+
     for (int i = 0; i < array.length(); ++i) {
-        out << std::fixed << std::setprecision(2) << std::setw(8) << array[i]; // Set width and precision
+        temp << std::setw(8) << array[i];
     }
+
+    out << temp.str();
     return out;
 }
 

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include <utility>
+#include <iomanip>
 
 template <typename T>
 class Array {
@@ -81,16 +82,19 @@ private:
 
 template <typename T>
 // Implementation of the free-standing operator<<
-inline std::ostream& operator<<(std::ostream& out, const Array<T>& array) {
+std::ostream& operator<<(std::ostream& out, const Array<T>& array) {
+    std::ostringstream temp;
+    temp << std::setprecision(2) << std::fixed << std::right;
     for (int i = 0; i < array.length(); ++i) {
-        out << array[i] << ' ';
+        temp << std::setw(8) << array[i];
     }
+    out << temp.str();
     return out;
 }
 
 template <typename T>
 // Implementation of the free-standing operator>>
-inline std::istream& operator>>(std::istream& in, Array<T>& array) {
+std::istream& operator>>(std::istream& in, Array<T>& array) {
     for (int i = 0; i < array.length(); ++i) {
         in >> array[i];
     }
