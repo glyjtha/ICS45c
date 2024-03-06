@@ -3,7 +3,7 @@
 #include <sstream>
 #include <algorithm>
 #include <cctype>
-using namespace std
+using namespace std;
 
 string to_lowercase(const std::string& str){
     string lower_str;
@@ -34,7 +34,7 @@ map<string, int> count_words(istream& document, const set<string>& stopwords){
 }
 
 void output_word_counts(const map<string, int>& word_counts, ostream& output){
-    for (const auto& [word, count] : my_map){
-        cout << word << count;
+    for (const auto& [word, count] : word_counts) {
+        output << word << " " << count << '\n';
     }
 }

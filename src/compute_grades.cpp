@@ -45,7 +45,36 @@ void Student::compute_course_score() {
     compute_hw_avg();
     // Assuming the weights are as follows: quizzes 40%, homeworks 30%, final exam 30%
     course_score = std::round(quiz_avg * 0.4 + hw_avg * 0.3 + final_score * 0.3);
-    course_grade = calculate_letter_grade(course_score);
+    if (course_score >= 97) {
+        course_grade = "A+";
+    } else if (course_score >= 93) {
+        course_grade = "A";
+    } else if (course_score >= 90) {
+        course_grade = "A-";
+    } else if (course_score >= 87) {
+        course_grade = "B+";
+    } else if (course_score >= 83) {
+        course_grade = "B";
+    } else if (course_score >= 80) {
+        course_grade = "B-";
+    } else if (course_score >= 77) {
+        course_grade = "C+";
+    } else if (course_score >= 73) {
+        course_grade = "C";
+    } else if (course_score >= 70) {
+        course_grade = "C-";
+    } else if (course_score >= 67) {
+        course_grade = "D+";
+    } else if (course_score >= 63) {
+        course_grade = "D";
+    } else if (course_score >= 60) {
+        course_grade = "D-";
+    } else {
+        course_grade = "F";
+    }
+}
+void Student::compute_grade() {
+    compute_course_score();
 }
 
 std::strong_ordering Student::operator<=>(const Student& other) const {
@@ -125,11 +154,6 @@ std::istream& operator>>(std::istream& in, Gradebook& b) {
         }
     }
 
-    // Handle the last student record (if the file does not end with a blank line)
-    if (!student.get_name().empty()) {
-        b.students.push_back(student);
-    }
-
     return in;
 }
 
@@ -142,19 +166,3 @@ std::ostream& operator<<(std::ostream& out, const Gradebook& b) {
 }
 
 
-// Auxiliary functions (if needed)
-std::string calculate_letter_grade(int score) {
-    if (score >= 97) return "A+";
-    else if (score >= 93) return "A";
-    else if (score >= 90) return "A-";
-    else if (score >= 87) return "B+";
-    else if (score >= 83) return "B";
-    else if (score >= 80) return "B-";
-    else if (score >= 77) return "C+";
-    else if (score >= 73) return "C";
-    else if (score >= 70) return "C-";
-    else if (score >= 67) return "D+";
-    else if (score >= 63) return "D";
-    else if (score >= 60) return "D-";
-    else return "F";
-}
