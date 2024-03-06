@@ -111,13 +111,16 @@ std::istream& operator>>(std::istream& in, Student& s) {
 }
 
 std::ostream& operator<<(std::ostream& out, const Student& s) {
-    out << "Name:   " << s.first_name + " " + s.last_name; // No std::setw used here
-    out << "\nHW Ave: " << std::left << std::setw(2) << s.hw_avg << '\n'
-        << "QZ Ave: " << std::left << std::setw(2) << s.quiz_avg << '\n'
-        << "Final:  " << std::left << std::setw(3) << s.final_score << '\n'
-        << "Total:  " << std::left << std::setw(2) << s.course_score << '\n'
-        << "Grade:  " << s.course_grade << '\n'
-        << '\n'; // Ensuring two newlines are present at the end for the expected blank line
+    int nameWidth = std::max(static_cast<int>(s.first_name.length() + s.last_name.length() + 1), 1); // +1 for space between first and last name
+    
+    out << "Name:   " << std::left << std::setw(nameWidth) << s.first_name + " " + s.last_name << '\n'
+        << "HW Ave: " << std::left << s.hw_avg << '\n'
+        << "QZ Ave: " << std::left << s.quiz_avg << '\n'
+        << "Final:  " << std::left << s.final_score << '\n'
+        << "Total:  " << std::left << s.course_score << '\n'
+        << "Grade:  " << std::left << s.course_grade << '\n'
+        << '\n'; // Maintain the two newlines for the expected blank line
+
     return out;
 }
 
