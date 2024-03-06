@@ -111,9 +111,8 @@ std::istream& operator>>(std::istream& in, Student& s) {
 }
 
 std::ostream& operator<<(std::ostream& out, const Student& s) {
-    // Ensure there are exactly three spaces after "Name:" and then output the name
-    out << "Name:   " << std::left << std::setw(18) << s.first_name + " " + s.last_name << '\n'
-        << "HW Ave: " << std::left << std::setw(2) << s.hw_avg << '\n'
+    out << "Name:   " << s.first_name + " " + s.last_name; // No std::setw used here
+    out << "\nHW Ave: " << std::left << std::setw(2) << s.hw_avg << '\n'
         << "QZ Ave: " << std::left << std::setw(2) << s.quiz_avg << '\n'
         << "Final:  " << std::left << std::setw(3) << s.final_score << '\n'
         << "Total:  " << std::left << std::setw(2) << s.course_score << '\n'
@@ -121,6 +120,7 @@ std::ostream& operator<<(std::ostream& out, const Student& s) {
         << '\n'; // Ensuring two newlines are present at the end for the expected blank line
     return out;
 }
+
 
 
 
