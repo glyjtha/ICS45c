@@ -90,10 +90,13 @@ std::istream& operator>>(std::istream& in, Student& s) {
         std::istringstream iss(line);
         iss >> token;
         if (token == "Name") {
-            getline(iss, s.first_name);  
-            s.last_name = s.first_name.substr(s.first_name.rfind(' ') + 1);
-            s.first_name.erase(s.first_name.rfind(' '));
-
+            iss >> std::ws; // This will eat up any leading whitespace
+            getline(iss, s.first_name, ' '); // Gets the first name up to the first space
+            getline(iss, s.last_name); // Gets the remaining part as the last name
+            if (!s.last_name.empty() && s.last_name[0] == ' ') {
+                // Erase leading spaces from last_name if there are any
+                s.last_name.erase(0, s.last_name.find_first_not_of(" "));
+            }
         } else if (token == "Quiz") {
             std::copy(std::istream_iterator<int>(iss),
                       std::istream_iterator<int>(),
@@ -108,6 +111,7 @@ std::istream& operator>>(std::istream& in, Student& s) {
     }
     return in;
 }
+
 
 std::ostream& operator<<(std::ostream& out, const Student& s) {
     out << std::left << std::setw(8) << "Name:" << s.first_name << " " << s.last_name << '\n'
@@ -159,7 +163,7 @@ std::istream& operator>>(std::istream& in, Gradebook& b) {
 std::ostream& operator<<(std::ostream& out, const Gradebook& b) {
     for (const Student& student : b.students) {
         out << student;
-        out << "\n";
+        out << '\n'
 
     }
     return out;
