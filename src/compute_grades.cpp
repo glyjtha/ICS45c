@@ -163,7 +163,7 @@ std::istream& operator>>(std::istream& in, Gradebook& b) {
 std::ostream& operator<<(std::ostream& out, const Gradebook& b) {
     for (const Student& student : b.students) {
         out << student;
-        out << '\n'
+        out << '\n';
 
     }
     return out;
