@@ -160,9 +160,13 @@ std::istream& operator>>(std::istream& in, Gradebook& b) {
 
 
 std::ostream& operator<<(std::ostream& out, const Gradebook& b) {
-    for (const auto& student : b.students) {
-        out << student; // Assuming Student class has an implemented operator<< to write its data
+    for (auto it = b.students.begin(); it != b.students.end(); ++it) {
+        out << *it; 
+        if (std::next(it) != b.students.end()) {
+            out << "\n"; 
+        }
     }
+    out << "\n";
     return out;
 }
 
