@@ -110,14 +110,12 @@ std::istream& operator>>(std::istream& in, Student& s) {
 }
 
 std::ostream& operator<<(std::ostream& out, const Student& s) {
-    out << "Name:   " << s.first_name + " " + s.last_name; // No std::setw used here
-
-    out << "\nHW Ave: " << std::left << std::setw(2) << s.hw_avg << '\n'
-        << "QZ Ave: " << std::left << std::setw(2) << s.quiz_avg << '\n'
-        << "Final:  " << std::left << std::setw(3) << s.final_score << '\n'
-        << "Total:  " << std::left << std::setw(2) << s.course_score << '\n'
-        << "Grade:  " << s.course_grade << '\n'
-        << '\n'; // Ensuring two newlines are present at the end for the expected blank line
+    out << std::left << std::setw(8) << "Name:" << s.first_name << " " << s.last_name << "\n"
+        << std::setw(8) << "HW Ave:" << std::fixed << std::setprecision(0) << s.hw_avg << "\n"
+        << std::setw(8) << "QZ Ave:" << s.quiz_avg << "\n"
+        << std::setw(8) << "Final:" << s.final_score << "\n"
+        << std::setw(8) << "Total:" << s.course_score << "\n"
+        << std::setw(8) << "Grade:" << s.course_grade << "\n";
     return out;
 }
 
