@@ -109,15 +109,14 @@ std::istream& operator>>(std::istream& in, Student& s) {
 }
 
 std::ostream& operator<<(std::ostream& out, const Student& s) {
-    out << std::left << std::setw(8) << "Name:" << s.first_name << s.last_name << '\n'
-        << std::setw(8) << "HW Ave:" << std::fixed << std::setprecision(0) << s.hw_avg << '\n'
-        << std::setw(8) << "QZ Ave:" << s.quiz_avg << '\n'
-        << std::setw(8) << "Final:" << s.final_score << '\n'
-        << std::setw(8) << "Total:" << s.course_score << '\n'
-        << std::setw(8) << "Grade:" << s.course_grade;
+    out << std::left << "Name: " << std::setw(13) << s.first_name + " " + s.last_name;
+    << "HW Ave: " << std::right << std::setw(3) << s.hw_avg;
+    << " QZ Ave: " << std::setw(3) << s.quiz_avg;
+    << " Final: " << std::setw(3) << s.final_score;
+    << " Total: " << std::setw(3) << s.course_score;
+    << " Grade: " << std::left << s.course_grade;
     return out;
 }
-
 
 
 
@@ -156,11 +155,15 @@ std::istream& operator>>(std::istream& in, Gradebook& b) {
 
 
 std::ostream& operator<<(std::ostream& out, const Gradebook& b) {
-    for (const auto& student : b.students) {
-        out << student << "\n\n"; 
+    for (auto it = b.students.begin(); it != b.students.end(); ++it) {
+        out << *it;
+        if (std::next(it) != b.students.end()) {
+            out << "\n\n"; 
+        } else {
+            out << "\n";
+        }
     }
     return out;
 }
-
 
 
