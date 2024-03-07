@@ -7,7 +7,6 @@
 #include <iomanip>
 #include <stdexcept>
 
-// Student class implementations
 void Student::validate() const {
     auto is_invalid = [](int score) { return score < 0 || score > 100; };
     
@@ -22,7 +21,6 @@ void Student::validate() const {
     }
 }
 
-
 void Student::compute_quiz_avg() {
     if (quiz.empty()) {
         quiz_avg = 0.0;
@@ -32,7 +30,6 @@ void Student::compute_quiz_avg() {
         quiz_avg = quiz.size() > 1 ? static_cast<double>(sum - lowest) / (quiz.size() - 1) : sum;
     }
 }
-
 
 void Student::compute_hw_avg() {
     hw_avg = hw.empty() ? 0.0
@@ -71,6 +68,7 @@ void Student::compute_course_score() {
         course_grade = "F";
     }
 }
+
 void Student::compute_grade() {
     compute_course_score();
 }
@@ -111,7 +109,6 @@ std::istream& operator>>(std::istream& in, Student& s) {
     return in;
 }
 
-
 std::ostream& operator<<(std::ostream& out, const Student& s) {
     out << std::left << std::setw(8) << "Name:" << s.first_name << " " << s.last_name << '\n'
         << std::left << std::setw(8) << "HW Ave:" << s.hw_avg << '\n'
@@ -121,9 +118,6 @@ std::ostream& operator<<(std::ostream& out, const Student& s) {
         << std::left << std::setw(8) << "Grade:" << s.course_grade << "\n";
     return out;
 }
-
-
-
 
 void Gradebook::compute_grades() {
     std::for_each(students.begin(), students.end(), [](Student& s) { s.compute_grade(); });
@@ -155,7 +149,6 @@ std::istream& operator>>(std::istream& in, Gradebook& b) {
     return in;
 }
 
-
 std::ostream& operator<<(std::ostream& out, const Gradebook& b) {
     for (const Student& student : b.students) {
         out << student;
@@ -164,6 +157,3 @@ std::ostream& operator<<(std::ostream& out, const Gradebook& b) {
     }
     return out;
 }
-
-
-
