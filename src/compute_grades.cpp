@@ -90,9 +90,10 @@ std::istream& operator>>(std::istream& in, Student& s) {
         std::istringstream iss(line);
         iss >> token;
         if (token == "Name") {
-            s.first_name = s.first_name.substr(s.first_name.find_first_not_of(' '));
+            getline(iss, s.first_name);  
             s.last_name = s.first_name.substr(s.first_name.rfind(' ') + 1);
             s.first_name.erase(s.first_name.rfind(' '));
+
         } else if (token == "Quiz") {
             std::copy(std::istream_iterator<int>(iss),
                       std::istream_iterator<int>(),
