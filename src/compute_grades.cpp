@@ -110,11 +110,11 @@ std::istream& operator>>(std::istream& in, Student& s) {
 
 std::ostream& operator<<(std::ostream& out, const Student& s) {
     out << std::left << "Name: " << std::setw(13) << s.first_name + " " + s.last_name;
-    << "HW Ave: " << std::right << std::setw(3) << s.hw_avg;
-    << " QZ Ave: " << std::setw(3) << s.quiz_avg;
-    << " Final: " << std::setw(3) << s.final_score;
-    << " Total: " << std::setw(3) << s.course_score;
-    << " Grade: " << std::left << s.course_grade;
+    out<< "HW Ave: " << std::right << std::setw(3) << s.hw_avg;
+    out<< " QZ Ave: " << std::setw(3) << s.quiz_avg;
+    out<< " Final: " << std::setw(3) << s.final_score;
+    out<< " Total: " << std::setw(3) << s.course_score;
+    out<< " Grade: " << std::left << s.course_grade;
     return out;
 }
 
