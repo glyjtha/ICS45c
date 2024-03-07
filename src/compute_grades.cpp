@@ -91,8 +91,8 @@ std::istream& operator>>(std::istream& in, Student& s) {
         iss >> token;
         if (token == "Name") {
             getline(iss, s.first_name);  
-            s.last_name = s.first_name.substr(s.first_name.rfind(' ') + 1); // Get the last name
-            s.first_name.erase(s.first_name.rfind(' ')); // Remove last name from first_name
+            s.last_name = s.first_name.substr(s.first_name.rfind(' ') + 1);
+            s.first_name.erase(s.first_name.rfind(' '));
         } else if (token == "Quiz") {
             std::copy(std::istream_iterator<int>(iss),
                       std::istream_iterator<int>(),
@@ -102,27 +102,24 @@ std::istream& operator>>(std::istream& in, Student& s) {
                       std::istream_iterator<int>(),
                       std::back_inserter(s.hw));
         } else if (token == "Final") {
-            iss >> s.final_score; // Assumes only one final score
+            iss >> s.final_score; 
         }
     }
     return in;
 }
 
 std::ostream& operator<<(std::ostream& out, const Student& s) {
-    out << std::left << std::setw(8) << "Name:" << s.first_name << " " << s.last_name << "\n"
-        << std::setw(8) << "HW Ave:" << std::fixed << std::setprecision(0) << s.hw_avg << "\n"
-        << std::setw(8) << "QZ Ave:" << s.quiz_avg << "\n"
-        << std::setw(8) << "Final:" << s.final_score << "\n"
-        << std::setw(8) << "Total:" << s.course_score << "\n"
-        << std::setw(8) << "Grade:" << s.course_grade << "\n";
+    out << std::left << std::setw(8) << "Name:" << s.first_name << " " << s.last_name << '\n'
+        << std::setw(8) << "HW Ave:" << std::fixed << std::setprecision(0) << s.hw_avg << '\n'
+        << std::setw(8) << "QZ Ave:" << s.quiz_avg << '\n'
+        << std::setw(8) << "Final:" << s.final_score << '\n'
+        << std::setw(8) << "Total:" << s.course_score << '\n'
+        << std::setw(8) << "Grade:" << s.course_grade << "\n\n";
     return out;
 }
 
 
 
-
-
-// Gradebook class implementations
 void Gradebook::compute_grades() {
     for (Student& student : students) {
         student.compute_grade();
@@ -144,14 +141,12 @@ std::istream& operator>>(std::istream& in, Gradebook& b) {
     std::string line;
 
     while (getline(in, line)) {
-        // If the line is not empty, we continue to read this student's data
         if (!line.empty()) {
             std::istringstream iss(line);
-            iss >> student;  // Assuming Student class has an implemented operator>> to read its data
+            iss >> student; 
         } else {
-            // If we encounter an empty line, it means we finished reading one student's data
             b.students.push_back(student);
-            student = Student();  // Reset the student object for the next student's data
+            student = Student(); 
         }
     }
 
@@ -160,13 +155,10 @@ std::istream& operator>>(std::istream& in, Gradebook& b) {
 
 
 std::ostream& operator<<(std::ostream& out, const Gradebook& b) {
-    for (auto it = b.students.begin(); it != b.students.end(); ++it) {
-        out << *it; 
-        if (std::next(it) != b.students.end()) {
-            out << "\n"; 
-        }
+    for (const Student& student : b.students) {
+        out << student;
+        out << "\n";
     }
-    out << "\n";
     return out;
 }
 
