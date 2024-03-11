@@ -19,11 +19,11 @@ class SetList {
 public:
     class ListIterator {
     public:
-        using iterator_category = ???;
-        using value_type = ???;
-        using difference_type = ???;
-        using pointer = ???;
-        using reference = ???;
+        using iterator_category = std::forward_iterator_tag;
+        using value_type = T;
+        using difference_type = std::ptrdiff_t;
+        using pointer = value_type*; 
+        using reference = value_type&; 
 
         explicit ListIterator(std::shared_ptr<ListNode> ptr = nullptr);
 
