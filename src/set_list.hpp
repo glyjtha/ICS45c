@@ -87,7 +87,7 @@ public:
         }
         
         auto newNode = std::make_shared<ListNode>();
-        newNode->data = value;
+        newNode->data = std::move(value);
         newNode->next = head;
         head = newNode;
 
