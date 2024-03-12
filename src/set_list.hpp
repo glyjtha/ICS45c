@@ -12,9 +12,15 @@
 template <typename T>
 class SetList {
     struct ListNode {
-        T data;
-        std::shared_ptr<ListNode> next;
-    };
+    T data;
+    std::shared_ptr<ListNode> next;
+
+    ListNode() : next(nullptr) {}
+
+    ListNode(T value, std::shared_ptr<ListNode> nextNode)
+        : data(std::move(value)), next(nextNode) {}
+};
+
 
 public:
     class ListIterator {
@@ -86,10 +92,8 @@ public:
         return end();
     }
     
-    auto newNode = std::make_shared<ListNode>();
-    newNode->data = std::move(value); 
-    newNode->next = head;
-    head = std::move(newNode);
+    auto newNode = std::make_shared<ListNode>(std::move(value), head);
+    head = newNode;
 
     return ListIterator(head);
     }
