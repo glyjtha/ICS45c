@@ -25,13 +25,31 @@ public:
         using pointer = value_type*; 
         using reference = value_type&; 
 
-        explicit ListIterator(std::shared_ptr<ListNode> ptr = nullptr);
+        explicit ListIterator(std::shared_ptr<ListNode> ptr = nullptr) : ptr(ptr) {}
 
-        ListIterator& operator++();
-        ListIterator operator++(int);
-        T& operator*() const;
-        T* operator->() const;
-        bool operator==(const ListIterator& other) const = default;
+        ListIterator& operator++(){
+            ptr = ptr -> next;
+            return *this;
+        }
+
+        ListIterator operator++(int){
+            ListIterator tmp = *this;
+            ptr = ptr->next;
+            return tmp;
+        }
+
+        T& operator*() const{
+            return ptr->data;
+
+        }
+        T* operator->() const{
+            return &(ptr->data);
+
+        }
+
+        bool operator==(const ListIterator& other) const{
+            return ptr == other.ptr; 
+        }
 
     private:
         std::shared_ptr<ListNode> ptr;
@@ -49,10 +67,32 @@ public:
                               std::bind_front(&SetList::insert, this));
     }
 
-    ListIterator begin();
-    ListIterator end();
-    bool contains(const T& value);
-    ListIterator insert(T value);
+    ListIterator begin(){
+        return ListIterator(head);
+    }
+    ListIterator end(){
+        return ListIterator(nullptr);
+    }
+    bool contains(const T& value){
+        for (auto node = head; node != nullptr; node = node->next) {
+            if (node->data == value) {
+                return true;
+            }
+        }
+        return false;
+    }
+    ListIterator insert(T value){
+        if (contains(value)) {
+            return end();
+        }
+        
+        auto newNode = std::make_shared<ListNode>();
+        newNode->data = value;
+        newNode->next = head;
+        head = newNode;
+
+        return ListIterator(newNode);
+    }
 
 private:
     std::shared_ptr<ListNode> head = nullptr;
