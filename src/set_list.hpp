@@ -82,17 +82,18 @@ public:
         return false;
     }
     ListIterator insert(T value){
-        if (contains(value)) {
-            return end();
-        }
-        
-        auto newNode = std::make_shared<ListNode>();
-        newNode->data = std::move(value);
-        newNode->next = head;
-        head = newNode;
-
-        return ListIterator(newNode);
+    if (contains(value)) {
+        return end();
     }
+    
+    auto newNode = std::make_shared<ListNode>();
+    newNode->data = std::move(value); 
+    newNode->next = head;
+    head = std::move(newNode);
+
+    return ListIterator(head);
+    }
+
 
 private:
     std::shared_ptr<ListNode> head = nullptr;
